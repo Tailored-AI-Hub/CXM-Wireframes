@@ -89,6 +89,49 @@ function applyTheme(css) {
   return css.replace(/#[0-9a-f]{6}\b/gi, (hex) => THEME[hex.toLowerCase()] || hex);
 }
 
+/* ---------------------------------------------------------------------------
+   Type: Instrument Sans / Instrument Serif / Spline Sans Mono.
+
+   Instrument Sans carries the UI — a contemporary grotesque with enough
+   character in the letterforms to not read as a default, and tight enough at
+   11–13px for dense tables. Spline Sans Mono keeps the micro-label voice and
+   holds a 600 weight, which the uppercase captions need.
+
+   Instrument Serif appears on exactly one element per page: the h1. A serif
+   display against a grotesque UI is what makes the page feel composed rather
+   than generated — and one element is the whole budget for that effect.
+
+   The h1 rules come first: inline `font:` shorthand sets the family, so a
+   stylesheet rule could never override it. Rewriting the shorthand is the only
+   way in without !important.
+--------------------------------------------------------------------------- */
+const SERIF = "'Instrument Serif',Georgia,'Times New Roman',serif";
+
+function applyType(s) {
+  // The shell builds markup inside JS string literals, so its quotes arrive
+  // escaped as \'. Patterns must tolerate both forms, and replacements must
+  // re-emit whichever form they matched — a bare ' here would terminate the
+  // surrounding JS string and break the shell.
+  const Q = String.raw`(\\?')`;
+
+  const title = (size, lh, tracking) => (m, q) =>
+    `font:400 ${size}px/${lh} ${q}Instrument Serif${q},Georgia,${q}Times New Roman${q},serif` +
+    `;letter-spacing:${tracking}`;
+
+  return s
+    .replace(
+      new RegExp(String.raw`font:600 22px/1\.1 ${Q}IBM Plex Sans\1,sans-serif;letter-spacing:-\.02em`, "g"),
+      title(31, "1.06", "-.008em")
+    )
+    .replace(
+      new RegExp(String.raw`font:600 26px/1\.15 ${Q}IBM Plex Sans\1,sans-serif;letter-spacing:-\.025em`, "g"),
+      title(36, "1.06", "-.008em")
+    )
+    // Family names elsewhere — quote-agnostic, so both forms are covered.
+    .replaceAll("IBM Plex Sans", "Instrument Sans")
+    .replaceAll("IBM Plex Mono", "Spline Sans Mono");
+}
+
 function extractStyle(src) {
   const m = src.match(/<style>([\s\S]*?)<\/style>/);
   return m ? m[1] : "";
@@ -143,13 +186,13 @@ for (const [key, file] of PAGES) {
 
 const sharedCss = [...sharedSeen].map(([s, d]) => `${s}{${d}}`).join("\n");
 
-for (const key of Object.keys(content)) content[key] = applyTheme(content[key]);
+for (const key of Object.keys(content)) content[key] = applyType(applyTheme(content[key]));
 
 const pagesJs =
-  "window.PAGE_CSS = " + JSON.stringify(applyTheme(sharedCss + "\n" + scoped.join("\n"))) + ";\n" +
+  "window.PAGE_CSS = " + JSON.stringify(applyType(applyTheme(sharedCss + "\n" + scoped.join("\n")))) + ";\n" +
   "window.PAGE_HTML = " + JSON.stringify(content) + ";";
 
-const shell = applyTheme(readFileSync(new URL("prototype-shell.html", import.meta.url), "utf8"));
+const shell = applyType(applyTheme(readFileSync(new URL("prototype-shell.html", import.meta.url), "utf8")));
 if (!shell.includes("/*__PAGES__*/")) throw new Error("shell is missing the /*__PAGES__*/ slot");
 // JSON.stringify never emits "</script>", but a page's own copy could; be safe.
 const out = shell.replace("/*__PAGES__*/", pagesJs.replace(/<\/script>/gi, "<\\/script>"));

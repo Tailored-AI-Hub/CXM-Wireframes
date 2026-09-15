@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Review Intelligence Console</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
 <style>
   /* Deliberately single-theme: this is a greyscale wireframe prototype, so it
      paints its own light ground explicitly rather than following the viewer. */
@@ -111,6 +112,13 @@
   .drill{cursor:pointer;}
   .drill:hover{background:#f7f7f6;}
   .hidden{display:none!important;}
+  /* Figures line up in columns all over this product, so they get tabular
+     figures. The id raises specificity above the page stylesheet, which is
+     appended after this block. */
+  #view .num,#view .td,#view .tdk,#view .th,#view .foot,#view .cap,#view .tag{font-variant-numeric:tabular-nums;}
+  /* Instrument Serif runs light at display sizes; give the h1 room to breathe
+     and let the deck below it sit closer. */
+  #view h1{margin-bottom:2px;}
 
   /* ---------- prototype chrome ---------- */
   #hint{display:flex;align-items:flex-start;gap:10px;background:#fdf9f7;border:1px dashed #e3cbbd;border-radius:3px;padding:10px 12px;}
