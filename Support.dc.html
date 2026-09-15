@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    body{margin:0;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;color:#4b4d52;background:#f7f7f6;-webkit-font-smoothing:antialiased;}
+    a{color:#a8512c;} a:hover{color:#8a4023;}
+    .cap{font:600 9.5px/1.25 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.13em;text-transform:uppercase;color:#6f7278;}
+    .pnl{background:#fff;border:1px solid #dcdde0;border-radius:3px;}
+    .h{font:600 14px/1.25 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .sub{font:400 11px/1.45 'IBM Plex Sans',sans-serif;color:#6f7278;}
+    .num{font:600 26px/1 'IBM Plex Sans',sans-serif;letter-spacing:-.025em;color:#17181a;}
+    .chip{display:flex;align-items:center;gap:6px;border:1px solid #dcdde0;background:#fff;border-radius:2px;padding:7px 9px;font:500 11px/1 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .btn{display:flex;align-items:center;gap:6px;border:1px solid #dcdde0;background:#fff;border-radius:2px;padding:8px 12px;font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .btn-p{background:#17181a;border-color:#17181a;color:#fff;}
+    .tag{font:600 8.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase;padding:3px 5px;border-radius:2px;border:1px solid #dcdde0;background:#f2f2f3;color:#6f7278;}
+    .tag-c{background:#f7ede7;border-color:#e3cbbd;color:#a8512c;}
+    .tag-k{background:#17181a;color:#fff;border-color:#17181a;}
+    .nav{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:3px;font:500 12.5px/1 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .nav-on{background:#17181a;color:#fff;}
+    .ico{width:13px;height:13px;flex:none;border:1.2px solid currentColor;border-radius:2px;opacity:.5;}
+    .ico-on{background:currentColor;opacity:.9;}
+    .foot{font:400 9.5px/1.4 'IBM Plex Mono',ui-monospace,monospace;color:#7c7f85;}
+    .td{font:400 11.5px/1.4 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .tdk{font:500 11.5px/1.35 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .th{font:600 9px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:#6f7278;}
+    .quote{font:400 12px/1.5 'IBM Plex Sans',sans-serif;color:#2f3135;}
+  </style>
+</helmet>
+
+<div style="display:flex;width:1440px;height:1240px;overflow:hidden;background:#f7f7f6;">
+
+  <aside style="width:236px;flex:none;background:#fff;border-right:1px solid #dcdde0;display:flex;flex-direction:column;">
+    <div style="padding:16px 14px 13px;border-bottom:1px solid #ececed;display:flex;align-items:center;gap:10px;">
+      <div style="width:34px;height:34px;flex:none;border:1px solid #dcdde0;border-radius:3px;background:#f2f2f3;display:grid;place-items:center;"><span class="cap">Logo</span></div>
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+        <div style="font:600 13.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;">Titan Company</div><span class="cap">Store-based · IN</span>
+      </div>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:2px;padding:11px 10px;">
+      <div class="cap" style="padding:6px 8px;">Monitor</div>
+      <div class="nav"><span class="ico"></span>Overview</div>
+      <div class="nav"><span class="ico"></span>Reviews Feed</div>
+      <div class="nav"><span class="ico"></span>Insights</div>
+      <div class="cap" style="padding:15px 8px 6px;display:flex;align-items:center;gap:6px;">Network <span class="tag tag-c">Store only</span></div>
+      <div class="nav"><span class="ico"></span>Store Performance</div>
+      <div class="nav"><span class="ico"></span>City &amp; Region</div>
+      <div class="cap" style="padding:15px 8px 6px;">Experience</div>
+      <div class="nav"><span class="ico"></span>Product &amp; Service</div>
+      <div class="nav"><span class="ico"></span>Staff &amp; Service Quality</div>
+      <div class="nav"><span class="ico"></span>Delivery &amp; Fulfilment</div>
+      <div class="nav nav-on"><span class="ico ico-on"></span>Support &amp; Resolution</div>
+      <div class="nav"><span class="ico"></span>Competitor &amp; Trust</div>
+      <div class="cap" style="padding:15px 8px 6px;">Operate</div>
+      <div class="nav"><span class="ico"></span>Actions &amp; Workflows</div>
+      <div class="nav"><span class="ico"></span>Reports</div>
+      <div class="cap" style="padding:15px 8px 6px;">Platform</div>
+      <div class="nav"><span class="ico"></span>Data Hub</div>
+    </nav>
+    <div style="margin-top:auto;padding:12px 14px;border-top:1px solid #ececed;display:flex;align-items:center;gap:9px;">
+      <div style="width:26px;height:26px;flex:none;border-radius:50%;background:#f2f2f3;border:1px solid #dcdde0;"></div>
+      <div style="display:flex;flex-direction:column;gap:4px;"><span style="font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;">R. Iyer</span><span class="cap">Regional Mgr · South</span></div>
+    </div>
+  </aside>
+
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+    <header style="height:54px;flex:none;background:#fff;border-bottom:1px solid #dcdde0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 22px;">
+      <div style="display:flex;align-items:center;gap:8px;font:400 12px/1 'IBM Plex Sans',sans-serif;color:#6f7278;">
+        <span>Titan Company</span><span>/</span><span style="color:#17181a;font-weight:600;">Support &amp; Resolution</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div class="chip"><span style="width:6px;height:6px;border-radius:50%;background:#17181a;"></span>Data fresh · 14 Sep, 06:00 IST</div>
+        <div class="btn">Save view</div><div class="btn btn-p">Export</div>
+      </div>
+    </header>
+
+    <div style="flex:1;overflow:hidden;padding:20px 22px 24px;display:flex;flex-direction:column;gap:13px;">
+
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <h1 style="margin:0;font:600 22px/1.1 'IBM Plex Sans',sans-serif;letter-spacing:-.02em;color:#17181a;">Customer support &amp; resolution</h1>
+          <span class="sub">Whether contacting support made the experience better or worse — measured on the reviews, not on the ticket system's own scores.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;"><div class="chip">Last 90 days</div><div class="chip">Grain · Channel × issue type</div></div>
+      </div>
+
+      <div class="pnl" style="padding:10px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span class="cap" style="padding-right:4px;">Filters</span>
+        <div class="chip">Channel · All (6)</div><div class="chip">Issue type · All</div><div class="chip">Agent group · All</div>
+        <div class="chip">SLA state · All</div><div class="chip">Source · 7 of 11</div><div class="chip">Sentiment · All</div>
+        <span class="foot" style="margin-left:auto;">6,904 records awaiting a reply · 1,104 tickets linked to a public review</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px;">
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Response rate</span><span class="num">43%</span><span class="foot">reply-capable sources only</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Median first response</span><span class="num">31h</span><span class="foot">target 24h</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Reopen rate</span><span class="num">14%</span><span class="foot">+3 pt vs prev</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Post-contact shift</span><span class="num">+0.8</span><span class="foot">sentiment pts, net</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Scripted-reply rate</span><span class="num">61%</span><span class="foot">near-identical replies</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Refund disputes</span><span class="num">418</span><span class="foot">+11% vs prev</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);gap:13px;">
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Response funnel by source</span>
+            <span class="sub">Not every source accepts a reply. The rate is only computed over those that do.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Google Maps</span><span class="td">58% · 31h</span></div>
+              <div style="height:8px;background:#f2f2f3;"><div style="height:8px;width:58%;background:#17181a;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Play Store</span><span class="td">81% · 14h</span></div>
+              <div style="height:8px;background:#f2f2f3;"><div style="height:8px;width:81%;background:#4b4d52;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">App Store</span><span class="td">74% · 19h</span></div>
+              <div style="height:8px;background:#f2f2f3;"><div style="height:8px;width:74%;background:#83868c;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Support desk</span><span class="td">96% · 6h</span></div>
+              <div style="height:8px;background:#f2f2f3;"><div style="height:8px;width:96%;background:#a5a8ad;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;opacity:.6;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Justdial</span><span class="td">No reply API</span></div>
+              <div style="height:8px;background:#f2f2f3;border:1px dashed #dcdde0;"></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;opacity:.6;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Marketplace</span><span class="td">No reply API</span></div>
+              <div style="height:8px;background:#f2f2f3;border:1px dashed #dcdde0;"></div>
+            </div>
+          </div>
+          <div style="margin-top:auto;padding-top:11px;border-top:1px solid #ececed;">
+            <span class="foot">5,309 Justdial and marketplace records are permanently unanswerable. They still count in sentiment, never in response rate.</span>
+          </div>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Did contact help?</span>
+            <span class="sub">Sentiment of the customer's next recorded interaction after a support contact.</span>
+          </div>
+          <svg viewBox="0 0 300 180" width="100%" height="180">
+            <text x="14" y="18" fill="#6f7278" font-family="'IBM Plex Mono',monospace" font-size="9">BEFORE</text>
+            <text x="200" y="18" fill="#6f7278" font-family="'IBM Plex Mono',monospace" font-size="9">AFTER</text>
+            <rect x="14" y="28" width="66" height="130" fill="#2f3135"/>
+            <text x="47" y="98" fill="#fff" font-family="'IBM Plex Mono',monospace" font-size="10" text-anchor="middle" font-weight="600">1,104</text>
+            <text x="47" y="112" fill="#fff" font-family="'IBM Plex Sans',sans-serif" font-size="9" text-anchor="middle">negative</text>
+            <path d="M80 40 L200 34 L200 66 L80 74 Z" fill="#c9cbcf"/>
+            <path d="M80 82 L200 76 L200 108 L80 116 Z" fill="#9a9da2"/>
+            <path d="M80 124 L200 118 L200 156 L80 158 Z" fill="#4b4d52"/>
+            <rect x="200" y="34" width="66" height="32" fill="#c9cbcf"/>
+            <rect x="200" y="76" width="66" height="32" fill="#9a9da2"/>
+            <rect x="200" y="118" width="66" height="38" fill="#4b4d52"/>
+            <g font-family="'IBM Plex Sans',sans-serif" font-size="9" fill="#17181a">
+              <text x="272" y="54">42% recovered</text><text x="272" y="96">31% neutral</text><text x="272" y="140">27% worse</text>
+            </g>
+          </svg>
+          <div style="display:flex;flex-direction:column;gap:7px;border-top:1px solid #ececed;padding-top:11px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span class="td">Recovered after contact</span><span class="tdk">42%</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span class="td">Worse after contact</span><span class="tdk">27%</span></div>
+            <span class="foot">Only customers with a second recorded interaction. Most never return, so this is not a recovery rate for the whole base.</span>
+          </div>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Issue mix</span>
+            <span class="sub">What people contact support about, and how often it reopens.</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 50px;gap:9px;padding-bottom:8px;border-bottom:1px solid #dcdde0;">
+            <span class="th">Issue type</span><span class="th" style="text-align:right;">Volume</span><span class="th" style="text-align:right;">Reopen</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Refund &amp; return status</span><span class="td" style="text-align:right;">418</span><span class="tdk" style="text-align:right;">31%</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Order tracking</span><span class="td" style="text-align:right;">392</span><span class="tdk" style="text-align:right;">18%</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">App login &amp; OTP</span><span class="td" style="text-align:right;">286</span><span class="tdk" style="text-align:right;">22%</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Buyback &amp; exchange terms</span><span class="td" style="text-align:right;">204</span><span class="tdk" style="text-align:right;">27%</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Price &amp; charge disputes</span><span class="td" style="text-align:right;">188</span><span class="tdk" style="text-align:right;">24%</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 54px 50px;gap:9px;padding:8px 0;"><span class="tdk">Certification queries</span><span class="td" style="text-align:right;">96</span><span class="tdk" style="text-align:right;">9%</span></div>
+          <div style="margin-top:auto;padding-top:11px;border-top:1px solid #ececed;">
+            <span class="foot">High reopen rate is the signal worth acting on — it means the first answer did not resolve anything.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:13px;">
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <span class="h">Reply template performance</span>
+              <span class="sub">Templates ranked by what happened after they were sent. A template that never changes the outcome should be retired.</span>
+            </div>
+            <div class="btn" style="padding:6px 10px;">Manage templates</div>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 60px 74px 78px minmax(0,1fr);gap:10px;padding-bottom:8px;border-bottom:1px solid #dcdde0;">
+            <span class="th">Template</span><span class="th" style="text-align:right;">Uses</span><span class="th" style="text-align:right;">Recovered</span><span class="th" style="text-align:right;">Reopened</span><span class="th">Verdict</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 60px 74px 78px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid #ececed;align-items:center;">
+            <span class="tdk">Queue delay — store apology</span><span class="td" style="text-align:right;">412</span><span class="tdk" style="text-align:right;">51%</span><span class="td" style="text-align:right;">9%</span><span class="tag tag-k">Effective</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 60px 74px 78px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid #ececed;align-items:center;">
+            <span class="tdk">Refund in progress — generic</span><span class="td" style="text-align:right;">386</span><span class="tdk" style="text-align:right;">18%</span><span class="td" style="text-align:right;">34%</span><span class="tag tag-c">Retire</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 60px 74px 78px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid #ececed;align-items:center;">
+            <span class="tdk">Share your contact details</span><span class="td" style="text-align:right;">1,208</span><span class="tdk" style="text-align:right;">12%</span><span class="td" style="text-align:right;">41%</span><span class="tag tag-c">Retire</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 60px 74px 78px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid #ececed;align-items:center;">
+            <span class="tdk">Making-charge explanation</span><span class="td" style="text-align:right;">204</span><span class="tdk" style="text-align:right;">44%</span><span class="td" style="text-align:right;">11%</span><span class="tag">Keep</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 60px 74px 78px minmax(0,1fr);gap:10px;padding:9px 0;align-items:center;">
+            <span class="tdk">App issue — escalate to product</span><span class="td" style="text-align:right;">146</span><span class="tdk" style="text-align:right;">38%</span><span class="td" style="text-align:right;">16%</span><span class="tag">Keep</span>
+          </div>
+          <div style="margin-top:auto;padding-top:11px;border-top:1px solid #ececed;display:flex;align-items:center;gap:12px;">
+            <span class="foot">"Share your contact details" is the most-used and least-effective reply in the corpus — 1,208 uses, 41% reopen.</span>
+            <div class="btn btn-p" style="margin-left:auto;flex:none;padding:6px 10px;">Create action</div>
+          </div>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span class="h">Escalation queue</span><span class="tag tag-c">9 breaching</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tag tag-k">Critical</span><span class="foot" style="margin-left:auto;">4 days open</span></div>
+              <p class="quote" style="margin:0;">“Exchange request raised on 30 Aug, still no pickup scheduled. Third follow-up.”</p>
+              <span class="foot">Support ticket · WhatsApp · unmapped to store</span>
+            </div>
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tag tag-k">Critical</span><span class="foot" style="margin-left:auto;">6 days open</span></div>
+              <p class="quote" style="margin:0;">“Public post accusing the brand of fraud over a buyback valuation. 40+ replies.”</p>
+              <span class="foot">Social · brand-level · trust theme</span>
+            </div>
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tag">High</span><span class="foot" style="margin-left:auto;">2 days open</span></div>
+              <p class="quote" style="margin:0;">“Refund approved 3 weeks ago, money not received. No response to emails.”</p>
+              <span class="foot">Google Maps · 1★ · Delhi NCR</span>
+            </div>
+          </div>
+          <div style="margin-top:auto;display:flex;flex-direction:column;gap:8px;border-top:1px solid #ececed;padding-top:11px;">
+            <span class="cap">Escalation rules</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span class="td">1★ unanswered &gt; 48h</span><span class="tdk">→ Support lead</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span class="td">Fraud or legal language</span><span class="tdk">→ Brand + Compliance</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span class="td">Third follow-up on one issue</span><span class="tdk">→ CX lead</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

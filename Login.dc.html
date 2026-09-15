@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    :root{--ink:#17181a;}
+    body{margin:0;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;color:#4b4d52;background:#f7f7f6;-webkit-font-smoothing:antialiased;}
+    a{color:#a8512c;} a:hover{color:#8a4023;}
+    .cap{font:600 9.5px/1.25 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.13em;text-transform:uppercase;color:#6f7278;}
+    .pnl{background:#fff;border:1px solid #dcdde0;border-radius:3px;}
+    .h{font:600 14px/1.25 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .sub{font:400 11px/1.45 'IBM Plex Sans',sans-serif;color:#6f7278;}
+    .lbl{font:600 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:#6d7076;}
+    .fld{border:1px solid #c9cbcf;border-radius:3px;background:#fff;padding:0 13px;height:46px;display:flex;align-items:center;gap:10px;font:400 13px/1 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .fld-ph{color:#8a8d93;}
+    .btn{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #dcdde0;background:#fff;border-radius:3px;height:46px;font:500 13px/1 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .btn-p{background:#17181a;border-color:#17181a;color:#fff;font-weight:600;}
+    .tag{font:600 8.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase;padding:3px 5px;border-radius:2px;border:1px solid #dcdde0;background:#f2f2f3;color:#6f7278;}
+    .tag-c{background:#f7ede7;border-color:#e3cbbd;color:#a8512c;}
+    .foot{font:400 9.5px/1.4 'IBM Plex Mono',ui-monospace,monospace;color:#7c7f85;}
+    .td{font:400 11.5px/1.35 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .tdk{font:500 11.5px/1.35 'IBM Plex Sans',sans-serif;color:#17181a;}
+  </style>
+</helmet>
+
+<div style="display:flex;width:1440px;height:900px;overflow:hidden;background:#fff;">
+
+  <div style="width:700px;flex:none;display:flex;flex-direction:column;justify-content:space-between;padding:40px 72px;background:#fff;border-right:1px solid #dcdde0;">
+
+    <div style="display:flex;align-items:center;gap:11px;">
+      <div style="width:30px;height:30px;border:1px solid #dcdde0;border-radius:3px;background:#f2f2f3;display:grid;place-items:center;"><span class="cap">CX</span></div>
+      <span style="font:600 14px/1 'IBM Plex Sans',sans-serif;color:#17181a;">Review Intelligence Platform</span>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:22px;max-width:456px;">
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <h1 style="margin:0;font:600 26px/1.15 'IBM Plex Sans',sans-serif;letter-spacing:-.025em;color:#17181a;">Sign in to your workspace</h1>
+        <span class="sub">Choose the company you are signing in to. This is the only place a workspace is selected — it cannot be changed from inside the dashboard.</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span class="lbl">Step 1 — Company / workspace</span>
+          <span class="tag tag-c">Tenant boundary</span>
+        </div>
+        <div class="fld" style="border-color:#17181a;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:24px;height:24px;border:1px solid #dcdde0;border-radius:2px;background:#f2f2f3;"></div>
+            <span>Titan Company</span>
+          </div>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6f7278" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="pnl" style="padding:5px;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(23,24,26,.07);">
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;background:#f2f2f3;border-radius:2px;">
+            <div style="width:22px;height:22px;border:1px solid #dcdde0;border-radius:2px;background:#fff;"></div>
+            <span class="tdk" style="flex:1;">Titan Company</span><span class="tag">Store-based</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;">
+            <div style="width:22px;height:22px;border:1px solid #dcdde0;border-radius:2px;background:#fff;"></div>
+            <span class="td" style="flex:1;">Taneira</span><span class="tag">Store-based</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;">
+            <div style="width:22px;height:22px;border:1px solid #dcdde0;border-radius:2px;background:#fff;"></div>
+            <span class="td" style="flex:1;">BlueStone</span><span class="tag">Store + D2C</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;">
+            <div style="width:22px;height:22px;border:1px solid #dcdde0;border-radius:2px;background:#fff;"></div>
+            <span class="td" style="flex:1;">Northline Fintech</span><span class="tag">Non-store</span>
+          </div>
+          <div style="padding:8px 10px;border-top:1px solid #ececed;">
+            <span class="foot">Only workspaces your identity is provisioned for are listed</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px;">
+        <span class="lbl">Step 2 — Sign in</span>
+        <div class="btn" style="justify-content:flex-start;padding:0 14px;gap:10px;">
+          <div style="width:17px;height:17px;border:1.3px solid #6f7278;border-radius:3px;"></div>
+          Continue with Titan SSO (SAML)
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="flex:1;height:1px;background:#ececed;"></div><span class="foot">or</span><div style="flex:1;height:1px;background:#ececed;"></div>
+        </div>
+        <div class="fld"><span class="fld-ph">Work email</span></div>
+        <div class="fld" style="justify-content:space-between;"><span class="fld-ph">Password</span><span class="foot">Show</span></div>
+        <div class="btn btn-p">Sign in to Titan Company</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <a href="#" style="font:400 11px/1 'IBM Plex Sans',sans-serif;">Forgot password</a>
+          <a href="#" style="font:400 11px/1 'IBM Plex Sans',sans-serif;">Request access</a>
+        </div>
+      </div>
+    </div>
+
+    <span class="foot">Single-tenant session · SOC2 · Data residency: IN</span>
+  </div>
+
+  <div style="flex:1;min-width:0;background:#f7f7f6;padding:40px 56px;display:flex;flex-direction:column;gap:16px;">
+
+    <div style="display:flex;flex-direction:column;gap:5px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="h">What the platform loads on sign-in</span><span class="tag tag-c">Annotation — not UI</span>
+      </div>
+      <span class="sub">The selected workspace resolves a tenant configuration bundle. Nothing below is user-selectable inside the dashboard.</span>
+    </div>
+
+    <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <span class="cap">Resolved tenant</span>
+        <span style="font:600 12.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;">titan</span>
+        <span class="tag tag-c" style="margin-left:auto;">company_type = STORE_BASED</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;">
+        <div style="display:flex;flex-direction:column;gap:4px;border-left:2px solid #dcdde0;padding-left:10px;">
+          <span class="cap">Branding</span><span class="td">Logo, wordmark, palette, favicon, report cover</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;border-left:2px solid #dcdde0;padding-left:10px;">
+          <span class="cap">Entity model</span><span class="td">Brand → Region → City → Store → Counter</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;border-left:2px solid #dcdde0;padding-left:10px;">
+          <span class="cap">Sources</span><span class="td">11 connectors, 7 live, 4 pending credentials</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;border-left:2px solid #dcdde0;padding-left:10px;">
+          <span class="cap">Taxonomy</span><span class="td">15 universal themes + 6 tenant-specific</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;border-left:2px solid #dcdde0;padding-left:10px;">
+          <span class="cap">Dashboard config</span><span class="td">Page set, default filters, KPI targets</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;border-left:2px solid #dcdde0;padding-left:10px;">
+          <span class="cap">Permissions</span><span class="td">Role, region scope, PII visibility, export rights</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:12px;border-color:#e3cbbd;background:#fdf9f7;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="h" style="color:#a8512c;">Company type decides the page set</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;">
+        <div style="display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid #e3cbbd;border-radius:3px;padding:12px;">
+          <span class="cap" style="color:#a8512c;">Store-based</span>
+          <span class="td">Store Performance</span><span class="td">City &amp; Region Performance</span>
+          <span class="td">Staff &amp; Service Quality</span><span class="td">Store-level filters and drilldowns</span>
+          <div style="height:1px;background:#f0e6e0;margin:2px 0;"></div>
+          <span class="foot">Also gets product / channel / segment modules</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid #e3cbbd;border-radius:3px;padding:12px;">
+          <span class="cap" style="color:#a8512c;">Non-store</span>
+          <span class="td">Product &amp; App Portfolio</span><span class="td">Channel Performance</span>
+          <span class="td">Segments, Plans &amp; Cohorts</span><span class="td">Journey Stage Analysis</span>
+          <div style="height:1px;background:#f0e6e0;margin:2px 0;"></div>
+          <span class="foot">Store pages hidden, not merely empty</span>
+        </div>
+      </div>
+      <span class="foot">Common to both: Overview · Reviews Feed · Insights · Source Coverage · Actions · Reports</span>
+    </div>
+
+    <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:10px;">
+      <span class="h">Session guarantees</span>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:flex-start;gap:9px;"><span class="tag">01</span><span class="td">Every query is scoped to <span class="tdk">company_id</span> at the data layer, not the UI layer.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:9px;"><span class="tag">02</span><span class="td">A user provisioned for two companies signs in twice — sessions never overlap.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:9px;"><span class="tag">03</span><span class="td">Region / store scope from the role narrows every page, filter and export.</span></div>
+        <div style="display:flex;align-items:flex-start;gap:9px;"><span class="tag">04</span><span class="td">Switching company requires sign-out, clearing all cached tenant state.</span></div>
+      </div>
+    </div>
+
+    <span class="foot" style="margin-top:auto;">Wireframe · mid-fidelity · terracotta marks framework annotations and company-type-conditional elements</span>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

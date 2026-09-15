@@ -1,0 +1,5 @@
+.DS_Store
+node_modules/
+
+# Superseded by the single-file build in build-prototype.mjs
+pages.js

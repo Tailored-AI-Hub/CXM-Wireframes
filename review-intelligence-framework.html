@@ -1,0 +1,871 @@
+<title>Review Intelligence Framework</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#f4f7f7; --surface:#ffffff; --surface-2:#eaf0f0; --sunk:#e2eaea;
+    --ink:#131a1b; --body:#3a4547; --muted:#677476; --line:#d6dede; --hair:#e8eeee;
+    --accent:#0d5b59; --accent-ink:#0d5b59; --accent-soft:#dfeceb;
+    --crit:#95352a; --crit-soft:#f5e6e3;
+    --warn:#7f5d10; --warn-soft:#f6eeda;
+    --ok:#2b6a4d; --ok-soft:#e1eee8;
+    --display:'Libre Franklin',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    --serif:'Source Serif 4',Georgia,'Times New Roman',serif;
+    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --bg:#0f1516; --surface:#151d1e; --surface-2:#1b2425; --sunk:#111818;
+      --ink:#eaf1f0; --body:#bdc8c9; --muted:#8a9698; --line:#2a3536; --hair:#212b2c;
+      --accent:#5cc0b6; --accent-ink:#78d0c7; --accent-soft:#16302e;
+      --crit:#e0917f; --crit-soft:#33201c;
+      --warn:#d4ae60; --warn-soft:#302716;
+      --ok:#7ac79d; --ok-soft:#162c22;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0f1516; --surface:#151d1e; --surface-2:#1b2425; --sunk:#111818;
+    --ink:#eaf1f0; --body:#bdc8c9; --muted:#8a9698; --line:#2a3536; --hair:#212b2c;
+    --accent:#5cc0b6; --accent-ink:#78d0c7; --accent-soft:#16302e;
+    --crit:#e0917f; --crit-soft:#33201c;
+    --warn:#d4ae60; --warn-soft:#302716;
+    --ok:#7ac79d; --ok-soft:#162c22;
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--body);font-family:var(--serif);font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;}
+
+  .wrap{display:grid;grid-template-columns:232px minmax(0,1fr);gap:48px;max-width:1360px;margin:0 auto;padding-inline:24px;padding-block:0 96px;}
+  @media (max-width:980px){ .wrap{grid-template-columns:minmax(0,1fr);gap:0;} .toc{position:static!important;border-right:0!important;padding-block:24px 0!important;} }
+
+  /* masthead */
+  .mast{grid-column:1/-1;border-bottom:2px solid var(--ink);padding-block:40px 20px;margin-bottom:34px;}
+  .kicker{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.04;letter-spacing:-.025em;color:var(--ink);margin:14px 0 12px;text-wrap:balance;max-width:16ch;}
+  .standfirst{font-size:18px;line-height:1.55;color:var(--body);max-width:62ch;margin:0;}
+  .mast-meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:22px;font-family:var(--mono);font-size:11px;color:var(--muted);}
+  .mast-meta b{color:var(--ink);font-weight:600;}
+
+  /* toc */
+  .toc{position:sticky;top:env(safe-area-inset-top,0px);align-self:start;border-right:1px solid var(--line);padding-block:8px 40px;padding-right:20px;max-height:100vh;overflow-y:auto;}
+  .toc-h{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+  .toc a{display:block;font-family:var(--display);font-size:13px;font-weight:500;line-height:1.35;color:var(--body);text-decoration:none;padding:6px 0;border-bottom:1px solid var(--hair);}
+  .toc a:hover{color:var(--accent-ink);}
+  .toc a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  main{min-width:0;}
+  section{margin-bottom:56px;scroll-margin-top:20px;}
+  .eyebrow{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px;}
+  h2{font-family:var(--display);font-weight:700;font-size:clamp(21px,2.6vw,27px);line-height:1.14;letter-spacing:-.018em;color:var(--ink);margin:0 0 10px;text-wrap:balance;}
+  h3{font-family:var(--display);font-weight:600;font-size:16px;line-height:1.25;letter-spacing:-.008em;color:var(--ink);margin:30px 0 10px;}
+  h4{font-family:var(--mono);font-weight:600;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;}
+  p{margin:0 0 14px;max-width:66ch;}
+  .lede{font-size:17px;color:var(--body);max-width:66ch;margin-bottom:22px;}
+  a{color:var(--accent-ink);}
+  code,.m{font-family:var(--mono);font-size:.855em;color:var(--ink);background:var(--surface-2);padding:1px 5px;border-radius:2px;}
+
+  /* tables */
+  .scroll{overflow-x:auto;border:1px solid var(--line);border-radius:3px;background:var(--surface);margin-bottom:16px;}
+  table{border-collapse:collapse;width:100%;font-family:var(--display);font-size:13px;line-height:1.45;min-width:640px;}
+  th{text-align:left;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:11px 14px;border-bottom:1px solid var(--line);background:var(--surface-2);white-space:nowrap;vertical-align:bottom;}
+  td{padding:11px 14px;border-bottom:1px solid var(--hair);color:var(--body);vertical-align:top;}
+  tr:last-child td{border-bottom:0;}
+  td strong{color:var(--ink);font-weight:600;}
+  td .m{font-size:11.5px;background:none;padding:0;color:var(--accent-ink);}
+  .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+  /* pills */
+  .pill{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 6px;border-radius:2px;white-space:nowrap;background:var(--surface-2);color:var(--muted);border:1px solid var(--line);}
+  .p-store{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent;}
+  .p-crit{background:var(--crit-soft);color:var(--crit);border-color:transparent;}
+  .p-warn{background:var(--warn-soft);color:var(--warn);border-color:transparent;}
+  .p-ok{background:var(--ok-soft);color:var(--ok);border-color:transparent;}
+
+  /* page spec cards */
+  .pages{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;}
+  .page{border:1px solid var(--line);border-radius:3px;background:var(--surface);padding:16px 17px;display:flex;flex-direction:column;gap:11px;}
+  .page-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .page-name{font-family:var(--display);font-weight:600;font-size:15px;color:var(--ink);line-height:1.25;}
+  .page-obj{font-size:14px;line-height:1.5;margin:0;color:var(--body);}
+  .field{display:grid;grid-template-columns:82px minmax(0,1fr);gap:10px;align-items:baseline;}
+  .field dt{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .field dd{margin:0;font-family:var(--display);font-size:12.5px;line-height:1.5;color:var(--body);}
+  .fieldset{display:flex;flex-direction:column;gap:7px;border-top:1px solid var(--hair);padding-top:11px;}
+
+  /* callout */
+  .note{border-left:2px solid var(--accent);background:var(--surface);padding:14px 18px;margin:0 0 18px;}
+  .note p{margin:0;font-size:15px;max-width:64ch;}
+  .note .m{background:none;padding:0;}
+
+  /* gap list */
+  .gaps{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);}
+  .gap{display:grid;grid-template-columns:104px minmax(0,1.1fr) minmax(0,1fr);gap:18px;padding:14px 0;border-bottom:1px solid var(--hair);align-items:start;}
+  @media (max-width:720px){ .gap{grid-template-columns:minmax(0,1fr);gap:6px;} }
+  .gap-what{font-family:var(--display);font-weight:600;font-size:14px;color:var(--ink);line-height:1.35;}
+  .gap-why{font-size:14px;line-height:1.5;}
+
+  /* roadmap */
+  .phase{border:1px solid var(--line);border-radius:3px;background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;gap:12px;}
+  .phase-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+  .phase-n{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent-ink);letter-spacing:.1em;}
+  .phase-t{font-family:var(--display);font-weight:600;font-size:17px;color:var(--ink);}
+  .phase-when{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-left:auto;}
+  ul{margin:0;padding-left:19px;}
+  li{margin-bottom:6px;font-family:var(--display);font-size:13.5px;line-height:1.5;}
+  li::marker{color:var(--muted);}
+  .cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;}
+
+  hr{border:0;border-top:1px solid var(--line);margin:0 0 30px;}
+  .end{border-top:2px solid var(--ink);padding-top:16px;font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.7;}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <span class="kicker">Framework specification · v0.1 draft</span>
+    <h1>Review Intelligence Framework</h1>
+    <p class="standfirst">A tenant-configurable Voice-of-Customer platform: one dashboard shell, hundreds of review sources normalised into a single model, and a page set that adapts to whether the company runs stores or not.</p>
+    <div class="mast-meta">
+      <span>Reviewed build · <b>bluestone_cxm @ 62.72.31.189:8082</b></span>
+      <span>Reference tenant · <b>Titan / BlueStone</b></span>
+      <span>Companion wireframes · <b>9 artboards</b></span>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-h">Contents</div>
+    <a href="#review">Where the current build stands</a>
+    <a href="#model">Tenant model</a>
+    <a href="#sitemap">Sitemap &amp; navigation</a>
+    <a href="#pages">Page specifications</a>
+    <a href="#kpi">KPI dictionary</a>
+    <a href="#taxonomy">Insight taxonomy</a>
+    <a href="#patterns">Advanced insight patterns</a>
+    <a href="#data">Common data model</a>
+    <a href="#analytics">Analytics requirements</a>
+    <a href="#ui">UI requirements</a>
+    <a href="#tenancy">Tenancy &amp; scale</a>
+    <a href="#gaps">Gaps to close</a>
+    <a href="#owners">What to collect from owners</a>
+    <a href="#roadmap">MVP and beyond</a>
+  </nav>
+
+  <main>
+
+    <section id="review">
+      <span class="eyebrow">Review</span>
+      <h2>Where the current build stands</h2>
+      <p class="lede">The deployed app is a React SPA — five views, one connected source, no authentication. It is a credible single-brand demo and a poor starting point for a multi-tenant product, in ways worth naming precisely before redesigning anything.</p>
+
+      <h3>What it does today</h3>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>View</th><th>What it shows</th><th>Backing data</th><th>Verdict</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Overview</strong></td><td>Four KPI tiles, star distribution, volume donut, 12-month rating trend, sentiment split, top three critical issues</td><td>3,179 real Play Store reviews</td><td><span class="pill p-ok">Keep the shape</span></td></tr>
+            <tr><td><strong>Reviews feed</strong></td><td>Paginated review cards, time-window tabs, star filter</td><td>Same corpus</td><td><span class="pill p-warn">Too thin to be evidence</span></td></tr>
+            <tr><td><strong>Insights</strong></td><td>Seven findings across six categories, each with three verbatim citations</td><td>Hand-authored from a manual read-through</td><td><span class="pill p-warn">Right idea, not generated</span></td></tr>
+            <tr><td><strong>Competitor intel</strong></td><td>Sentiment vs four named brands, mention counts, matching reviews</td><td>Keyword matches — 14, 10 and 2 mentions</td><td><span class="pill p-crit">Sample far too small</span></td></tr>
+            <tr><td><strong>Store deep dive</strong></td><td>City/store pickers, per-store KPIs, trend, review list</td><td>Six hardcoded mock stores</td><td><span class="pill p-crit">Entirely fictional</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>What it gets right</h3>
+      <p>Three decisions are worth carrying forward unchanged. Every insight already cites real verbatim reviews rather than summarising them away — that instinct is the product's core. The source code is honest about its own fiction: <span class="m">mockStores.js</span> opens with a comment stating that Play Store reviews carry no store information at all and that the view is placeholder. And the ingestion run log already records <span class="m">complete_history_verified: false</span> with a coverage note — provenance discipline most review tools never bother with.</p>
+
+      <h3>What blocks it from becoming a platform</h3>
+      <div class="gaps">
+        <div class="gap"><span class="pill p-crit">Tenancy</span><div class="gap-what">No login, no company concept</div><div class="gap-why">BlueStone is compiled in — logo imported as a module, brand name hardcoded in copy. There is no <span class="m">company_id</span> anywhere in the data or the query path.</div></div>
+        <div class="gap"><span class="pill p-crit">Sources</span><div class="gap-what">One source, and the filter admits it</div><div class="gap-why">The source dropdown is <span class="m">disabled</span> with a single option. Every cross-source claim the UI implies — "review volume" as a donut of one — is unearned.</div></div>
+        <div class="gap"><span class="pill p-crit">Entities</span><div class="gap-what">Store analytics with no store data</div><div class="gap-why">The review schema is <span class="m">{id, name, p, r, d, s, t, reply, c}</span>. There is no store, city, region, product, channel or segment field. Store deep dive cannot be made real without a new source and an entity resolver.</div></div>
+        <div class="gap"><span class="pill p-warn">Sentiment</span><div class="gap-what">Sentiment is derived from the star rating</div><div class="gap-why">Labelled "sentiment score" in the KPI tile but computed by bucketing <span class="m">r</span>. A 5★ review complaining about delivery counts as positive. Fine as a fallback, wrong as a headline metric.</div></div>
+        <div class="gap"><span class="pill p-warn">Insights</span><div class="gap-what">Insights are static content, not output</div><div class="gap-why">Seven findings in a JS file, with a comment saying to re-derive them by hand if the corpus refreshes. Nothing recomputes when data arrives.</div></div>
+        <div class="gap"><span class="pill p-warn">Filters</span><div class="gap-what">Filter state does not survive navigation</div><div class="gap-why">Each view holds its own local state. A date range set on Overview is lost on the way to Insights — which breaks the one workflow that matters: notice a number, go find the reviews behind it.</div></div>
+        <div class="gap"><span class="pill"></span><div class="gap-what">No action layer</div><div class="gap-why">Findings terminate in a card. Nothing can be assigned, tracked, escalated or verified, so nothing closes the loop from insight to operational change.</div></div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="model">
+      <span class="eyebrow">Architecture</span>
+      <h2>Tenant model</h2>
+      <p class="lede">Company selection happens once, at the login page. Sign-in resolves exactly one tenant configuration bundle, and the dashboard renders from it. There is no switcher inside the product; changing company means signing out.</p>
+
+      <div class="note"><p>The rule that makes this safe is not a UI rule. Every query carries <span class="m">company_id</span> at the data layer — row-level security or schema-per-tenant, enforced below the API. A hidden switcher is a UI convenience; a scoped query is the actual boundary.</p></div>
+
+      <h3>The configuration bundle</h3>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Key</th><th>Contents</th><th>Consumed by</th></tr></thead>
+          <tbody>
+            <tr><td><span class="m">branding</span></td><td>Logo, wordmark, palette, favicon, report cover, display name</td><td>App shell, PDF/report renderer</td></tr>
+            <tr><td><span class="m">company_type</span></td><td><span class="m">STORE_BASED</span> or <span class="m">NON_STORE</span></td><td>Route table, nav builder, filter registry</td></tr>
+            <tr><td><span class="m">entity_model</span></td><td>Declared hierarchy and its labels — e.g. Brand → Region → City → Store → Counter</td><td>All drilldowns, group-by, benchmarks</td></tr>
+            <tr><td><span class="m">dimensions</span></td><td>Secondary axes available: product, app, channel, plan, segment, journey stage, cohort</td><td>Filter bar, theme breakdowns</td></tr>
+            <tr><td><span class="m">sources</span></td><td>Connector list with credentials, granularity and field capability per source</td><td>Data Hub, every "which sources" disclosure</td></tr>
+            <tr><td><span class="m">taxonomy</span></td><td>Universal theme set plus tenant-specific extensions and synonyms</td><td>Theming pipeline, theme filters</td></tr>
+            <tr><td><span class="m">dashboard_config</span></td><td>Enabled page set, default filters, KPI targets, minimum-n thresholds</td><td>Nav, page guards, KPI tiles</td></tr>
+            <tr><td><span class="m">permissions</span></td><td>Role, entity scope (region/store or product/segment), PII visibility, export rights</td><td>Every page and every export</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Two company types, one shell</h3>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Layer</th><th>Store-based</th><th>Non-store</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Primary entity</strong></td><td>Store / branch / outlet</td><td>Product / app / plan</td></tr>
+            <tr><td><strong>Hierarchy</strong></td><td>Brand → Region → City → Store → Counter</td><td>Brand → Product line → Product → Release / Plan</td></tr>
+            <tr><td><strong>Secondary axes</strong></td><td>Product, app, channel, segment, plan, journey stage, cohort <em>— store-based tenants get these too</em></td><td>Channel, segment, journey stage, cohort, device/OS</td></tr>
+            <tr><td><strong>Exclusive pages</strong></td><td>Store Performance, City &amp; Region, Staff &amp; Service Quality</td><td>Product &amp; App, Channel Performance, Segments &amp; Cohorts, Journey Stages</td></tr>
+            <tr><td><strong>Exclusive filters</strong></td><td>Region, City, Store, Store format, Store age</td><td>Product, App version, Plan, Segment, Journey stage</td></tr>
+            <tr><td><strong>Shared everywhere</strong></td><td colspan="2">Overview · Reviews Feed · Insights · Competitor &amp; Trust · Support &amp; Resolution · Data Hub · Actions · Reports · date, source, rating, sentiment, theme, issue-type filters</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>A page that does not apply to a tenant is absent from the nav <em>and</em> returns 404 on its route. Showing it empty invites the question "why is our store data missing" for a company that has no stores.</p>
+    </section>
+
+    <hr>
+
+    <section id="sitemap">
+      <span class="eyebrow">Navigation</span>
+      <h2>Sitemap &amp; navigation</h2>
+      <p class="lede">Five nav groups, ordered by how a working day actually runs: notice, investigate, locate, act, report. Group two is the only one that swaps between company types.</p>
+
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Group</th><th>Page</th><th>Route</th><th>Availability</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="3"><strong>Monitor</strong></td><td>Overview</td><td><span class="m">/overview</span></td><td>All</td></tr>
+            <tr><td>Reviews Feed &amp; Evidence Explorer</td><td><span class="m">/reviews</span></td><td>All</td></tr>
+            <tr><td>Insights</td><td><span class="m">/insights</span></td><td>All</td></tr>
+            <tr><td rowspan="2"><strong>Network</strong></td><td>Store Performance</td><td><span class="m">/stores</span></td><td><span class="pill p-store">Store-based</span></td></tr>
+            <tr><td>City &amp; Region Performance</td><td><span class="m">/geography</span></td><td><span class="pill p-store">Store-based</span></td></tr>
+            <tr><td rowspan="4"><strong>Portfolio</strong></td><td>Product &amp; App</td><td><span class="m">/products</span></td><td>All <em>(primary for non-store)</em></td></tr>
+            <tr><td>Channel Performance</td><td><span class="m">/channels</span></td><td>All</td></tr>
+            <tr><td>Segments &amp; Cohorts</td><td><span class="m">/segments</span></td><td>All</td></tr>
+            <tr><td>Journey Stages</td><td><span class="m">/journey</span></td><td>All</td></tr>
+            <tr><td rowspan="4"><strong>Experience</strong></td><td>Staff &amp; Service Quality</td><td><span class="m">/staff</span></td><td><span class="pill p-store">Store-based</span></td></tr>
+            <tr><td>Delivery &amp; Fulfilment</td><td><span class="m">/fulfilment</span></td><td>All</td></tr>
+            <tr><td>Support &amp; Resolution</td><td><span class="m">/support</span></td><td>All</td></tr>
+            <tr><td>Competitor &amp; Brand Trust</td><td><span class="m">/competition</span></td><td>All</td></tr>
+            <tr><td rowspan="3"><strong>Operate</strong></td><td>Actions &amp; Workflows</td><td><span class="m">/actions</span></td><td>All</td></tr>
+            <tr><td>Reports</td><td><span class="m">/reports</span></td><td>All</td></tr>
+            <tr><td>Data Hub &amp; Source Coverage</td><td><span class="m">/data</span></td><td>All</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Three navigation rules</h3>
+      <ul>
+        <li><strong>Filter state is global and lives in the URL.</strong> Moving from Overview to Insights carries date range, sources, entity scope, theme and sentiment. A pasted link reproduces exactly what the sender saw.</li>
+        <li><strong>Every drilldown terminates in evidence.</strong> A KPI opens a breakdown, a breakdown opens a filtered Reviews Feed. No path ends at a number with nothing behind it.</li>
+        <li><strong>Company context is display-only.</strong> Logo, name and type sit in the sidebar header as fixed text. Nothing in that area is clickable.</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section id="pages">
+      <span class="eyebrow">Specification</span>
+      <h2>Page specifications</h2>
+      <p class="lede">Each page states its job, its owner, the metrics it is accountable for, and the fields it cannot run without. Layouts for the first eight are drawn in the companion wireframe canvas.</p>
+
+      <div class="pages">
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Overview</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Answer "what changed, where, and does it need me this week" in under a minute.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>CX lead, brand head, regional leadership</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Total reviews · Avg rating · Positive share · Response rate · Entity coverage · Open critical actions</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>KPI row with deltas · volume-and-rating combo trend · source mix with coverage health · theme performance table · priority insight list · entity movers (improving/declining)</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Date, comparison period, source, entity scope, rating, sentiment, theme, category</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>KPI → breakdown by entity · theme row → filtered feed · mover row → entity profile</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">rating, sentiment, theme_mention, entity_id, source_id, captured_at</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Export summary, save view, subscribe to weekly digest</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Reviews Feed &amp; Evidence Explorer</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Let anyone verify any claim in the product by reading the underlying reviews.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Analyst, store manager, support lead</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Matching records · unreplied count · median reply time · unmapped-to-entity count</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Faceted filter rail · record list with theme chips and confidence · record-detail pane showing normalised fields and provenance · reply composer · bulk action bar</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Full-text and phrase search, source, rating, sentiment, theme, entity, language, record state</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Record → source record at origin · record → linked insight · record → linked action</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">raw_text, translated_text, reviewer_pseudonym, source_url, ingest_run_id, theme_mention.confidence, entity_match_score</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Reply, tag theme, correct a label, create action, add to report, export selection</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Insights</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Surface generated findings ranked by impact, each stating its evidence, denominator and limits.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>CX lead, analytics team, category owners</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Open insights by severity · insights actioned % · median age · precision on the labelled sample</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Type tabs (emerging / recurring / anomaly / comparative / competitive) · ranked list with sparkline · detail pane with what-the-data-shows, breakdown chart, affected entity table, sampled quotes, limitations block, routing suggestion</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Type, severity, confidence, status, theme, entity scope, date</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Insight → all cited reviews · affected entity → entity profile</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">insight.pattern_id, evidence_count, denominator, confidence, first_seen_at, affected_entity_ids</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Create action, assign owner, dismiss with reason, subscribe, add to report</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Store Performance</span><span class="pill p-store">Store-based</span></div>
+          <p class="page-obj">Rank every location against its city and the network, and separate genuine problems from small samples.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Regional manager, retail operations, store manager</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Stores reporting vs in scope · region avg rating · p10–p90 spread · stores below threshold · median reviews per store · response rate</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Volume-vs-rating quadrant scatter · store rating histogram against network median · sortable league table · coverage-gap strip · store profile drawer</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Region, city, store format, cluster, store age, minimum n, source, theme, date</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Store → profile → theme breakdown → filtered feed</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">store_id, city_id, region_id, format, opened_on, geo, store_master_match</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Assign store action, claim a listing, add store to watchlist, export league table</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">City &amp; Region Performance</span><span class="pill p-store">Store-based</span></div>
+          <p class="page-obj">Show where geography explains the difference — and where it only looks like it does.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Regional leadership, expansion and ops planning</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Cities with coverage · best and weakest region · inter-city variance · coverage debt</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Treemap or geo map shaded by negative share · region comparison with store spread · theme mix heatmap by region · city watchlist</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Region, city tier, date, source, theme, minimum n</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Region → city → store → feed</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">region_id, city_id, city_tier, store_count, geo_centroid</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Assign regional action, trigger listing-claim task, schedule city review</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Product / Service Experience</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Separate what people think of the product from what they think of buying it.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Category manager, product owner, merchandising</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Rating by category · quality-complaint rate · return-linked mentions · design-praise share · app crash mentions per release</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Category league table · theme mix by category · release/version overlay on trend · quality-issue cluster list · competitor product comparison</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Category, SKU or product line, app version, price band, date, source</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Category → product → issue cluster → feed</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">product_id, category_id, sku, app_version, price_band, order_ref</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Raise quality investigation, flag SKU, brief merchandising, notify engineering</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Staff &amp; Service Quality</span><span class="pill p-store">Store-based</span></div>
+          <p class="page-obj">Turn named praise and complaints about people into coaching and rota decisions — without building a surveillance tool.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Store manager, regional manager, L&amp;D</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Staff-mention rate · positive staff-mention share · behaviour complaints per 1,000 reviews · weekend vs weekday gap</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Store × day × time-band heatmap · behaviour sub-theme breakdown (knowledge, pressure, courtesy, attentiveness) · named-mention list with consent policy note · coaching recommendation list</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Store, region, day of week, time band, shift, tenure band, theme</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Store → time band → sub-theme → feed</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">store_id, visit_timestamp, shift_id, staff_mention (text-derived), tenure_band</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Schedule coaching, adjust rota, escalate conduct issue, recognise a named employee</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Delivery &amp; Fulfilment</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Track the gap between promised and experienced fulfilment, by route and by partner.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Supply chain, logistics, e-commerce ops</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Delivery-complaint rate · promise-vs-reality gap mentions · damaged-on-arrival mentions · exchange and pickup delay mentions</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Complaint rate by city and partner · promised-date-gap distribution · fulfilment stage breakdown · repeat-offender route list</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>City, partner, order type, delivery window, date, source</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Partner → route → order type → feed</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">order_ref, promised_date, delivered_date, carrier_id, fulfilment_type, destination_city</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Raise partner review, adjust promise windows, trigger proactive outreach</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Customer Support &amp; Resolution</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Measure whether contact with support made the experience better or worse.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Support lead, CX operations</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Response rate and median reply time by source · reopen rate · post-contact sentiment shift · scripted-reply rate · refund and return dispute volume</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Response funnel by source · resolution-outcome breakdown · sentiment before and after contact · template performance table · escalation queue</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Channel, issue type, agent group, SLA state, date, source</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Channel → issue type → ticket thread → linked public review</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">ticket_id, channel, first_response_at, resolved_at, reopen_count, linked_review_id, reply_template_id</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Retire a template, reassign queue, escalate, trigger recovery outreach</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Competitor &amp; Brand Trust</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Understand what customers say when they compare you to someone else, and what they doubt about you.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Brand, marketing, strategy</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Competitor mention rate · share of voice within own corpus · switch-intent rate · trust and authenticity complaint rate</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Mention volume by competitor with sample-size warning · comparison-context breakdown (price, design, service, trust) · switch-intent evidence list · trust sub-theme trend</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Competitor, comparison dimension, sentiment, date, source, entity scope</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Competitor → comparison dimension → feed</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">competitor_mention.entity, comparison_dimension, switch_intent_flag, trust_subtheme</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Brief marketing, raise policy-clarity action, commission research</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Data Hub &amp; Source Coverage</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Make the limits of the data visible, because every number elsewhere inherits them.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Data engineering, analytics, CX operations</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Connectors live vs configured · records ingested · duplicate rate · entity match rate · sources breaching freshness SLA · text coverage</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Connector table with granularity and capability per source · ingestion run log · data-quality queue · language mix · read-only tenant configuration panel</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Source type, health state, date</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Source → run → failed records → mapping tool</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">source.granularity, auth_state, last_run_at, dedupe_rate, match_rate, sentiment_origin, history_start</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Re-authenticate, run now, resolve entity mapping, add a source, raise a data ticket</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Actions &amp; Workflows</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Turn an insight into someone's job, with an SLA and a verification step.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>Every owner group; CX lead owns the queue</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Open actions · breaching SLA · median time to close · insights actioned % · verified improvements</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Status board (triage → assigned → in progress → verifying → closed) · routing rule table · post-close impact watch with explicit non-causal caveat</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Owner, owner group, theme, severity, SLA state, entity scope, date</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Action → source insight → cited reviews</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">action.insight_id, owner_id, owner_group, sla_days, status, closed_at, verification_window, baseline_metric</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Assign, reassign, escalate, close with outcome, reopen</dd></dl>
+          </div>
+        </article>
+
+        <article class="page">
+          <div class="page-top"><span class="page-name">Reports</span><span class="pill">All tenants</span></div>
+          <p class="page-obj">Produce the recurring artefacts people already circulate, with provenance attached.</p>
+          <div class="fieldset">
+            <dl class="field"><dt>User</dt><dd>CX lead, regional managers, executive audience</dd></dl>
+            <dl class="field"><dt>KPIs</dt><dd>Scheduled reports · delivery success · open rate · reports with stale data at send time</dd></dl>
+            <dl class="field"><dt>Modules</dt><dd>Template library (monthly brand, regional pack, store scorecard, product review, board summary) · schedule manager · branded PDF and deck export · snapshot archive</dd></dl>
+            <dl class="field"><dt>Filters</dt><dd>Template, recipient group, entity scope, period</dd></dl>
+            <dl class="field"><dt>Drill</dt><dd>Report → section → underlying view at the time of generation</dd></dl>
+            <dl class="field"><dt>Fields</dt><dd><span class="m">report.template_id, period, scope, generated_at, data_as_of, recipient_group</span></dd></dl>
+            <dl class="field"><dt>Actions</dt><dd>Schedule, send now, export, share a frozen snapshot link</dd></dl>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="kpi">
+      <span class="eyebrow">Reference</span>
+      <h2>KPI dictionary</h2>
+      <p class="lede">Every metric gets one definition across all tenants. Where a metric is only meaningful under conditions, the condition is part of the definition, not a footnote someone can drop.</p>
+
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Metric</th><th>Definition</th><th>Grain</th><th>Denominator shown</th><th>Caveat that must ship with it</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Review volume</strong></td><td>Count of normalised feedback records after dedupe</td><td>Any entity × period</td><td>Total records before filters</td><td>Volume reflects source coverage, not customer count</td></tr>
+            <tr><td><strong>Average rating</strong></td><td>Mean of rescaled ratings, 1–5</td><td>Any entity × period</td><td>Rated records only, as % of total</td><td>Excludes unrated records; sources with 0–10 or thumbs scales are rescaled</td></tr>
+            <tr><td><strong>Positive share</strong></td><td>Model-classified positive records ÷ classified records</td><td>Any entity × period</td><td>Classified records; unscored % stated</td><td>Name the model version; state when a source is rating-derived</td></tr>
+            <tr><td><strong>Net sentiment</strong></td><td>Positive share minus negative share, in points</td><td>Any entity × period</td><td>Same as positive share</td><td>Not comparable across tenants with different taxonomies</td></tr>
+            <tr><td><strong>Theme mention rate</strong></td><td>Records with theme above confidence threshold ÷ records with text</td><td>Theme × entity × period</td><td>Records with usable text</td><td>Rating-only records cannot carry themes and are excluded</td></tr>
+            <tr><td><strong>Theme negative rate</strong></td><td>Negative records mentioning theme ÷ records mentioning theme</td><td>Theme × entity × period</td><td>Theme mentions</td><td>Threshold value must be visible</td></tr>
+            <tr><td><strong>Response rate</strong></td><td>Records with a published reply ÷ records on reply-capable sources</td><td>Source × entity × period</td><td>Reply-capable records only</td><td>Never computed over sources that do not support replies</td></tr>
+            <tr><td><strong>Median first-response time</strong></td><td>Median hours from capture to first published reply</td><td>Source × entity × period</td><td>Replied records</td><td>Capture time is not post time on scraped sources</td></tr>
+            <tr><td><strong>Review velocity</strong></td><td>Records per entity per 30 days, trailing</td><td>Entity × period</td><td>Active entities</td><td>Sensitive to source outages — check Data Hub before reading a drop</td></tr>
+            <tr><td><strong>Entity coverage</strong></td><td>Entities with ≥1 record ÷ entities in the master</td><td>Entity type × period</td><td>Entities in master</td><td>Distinguish "no reviews" from "not connected"</td></tr>
+            <tr><td><strong>Entity match rate</strong></td><td>Records resolved to an entity ÷ records from location-bearing sources</td><td>Source × period</td><td>Location-bearing records</td><td>Unmatched records are absent from all entity analytics</td></tr>
+            <tr><td><strong>Rating spread (p10–p90)</strong></td><td>90th minus 10th percentile of entity mean ratings</td><td>Entity type × period</td><td>Entities meeting minimum n</td><td>Each entity weighted equally, not by volume</td></tr>
+            <tr><td><strong>Competitor mention rate</strong></td><td>Records naming a tracked competitor ÷ records with text</td><td>Competitor × period</td><td>Records with text</td><td>Own-corpus only — not market share, not share of voice</td></tr>
+            <tr><td><strong>Switch-intent rate</strong></td><td>Competitor-mentioning records also expressing intent to leave ÷ competitor mentions</td><td>Competitor × period</td><td>Competitor mentions</td><td>Stated intent, not observed churn</td></tr>
+            <tr><td><strong>Insights actioned</strong></td><td>Open insights with ≥1 linked action ÷ open insights</td><td>Period</td><td>Open insights</td><td>Counts assignment, not resolution</td></tr>
+            <tr><td><strong>Verified improvement</strong></td><td>Closed actions whose theme rate fell beyond the control band in the watch window</td><td>Action × window</td><td>Closed actions past their window</td><td>Association, never causation; seasonality shown alongside</td></tr>
+            <tr><td><strong>Data freshness</strong></td><td>Hours since the last successful run per source</td><td>Source</td><td>—</td><td>Shown on every page header, not buried in settings</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note"><p><strong>Minimum-n rule.</strong> Any entity below the tenant's threshold (default 30 records in the period) is listed but never ranked, benchmarked, shaded on a map, or used in an insight. It shows <span class="m">n/a</span> with the reason, not a blank.</p></div>
+    </section>
+
+    <hr>
+
+    <section id="taxonomy">
+      <span class="eyebrow">Reference</span>
+      <h2>Insight taxonomy</h2>
+      <p class="lede">Fifteen universal themes that hold across jewellery retail, QSR, banking, clinics, gyms and SaaS. The theme is constant; only its sub-themes and the entity it attaches to change per tenant.</p>
+
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Theme</th><th>Sub-themes</th><th>Store-based expression</th><th>Non-store expression</th><th>Default owner</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Staff behaviour</strong></td><td>Courtesy, product knowledge, sales pressure, attentiveness, named praise</td><td>Consultant on the floor</td><td>Support agent, relationship manager</td><td>Store / Regional manager</td></tr>
+            <tr><td><strong>Ambiance &amp; environment</strong></td><td>Cleanliness, crowding, lighting, seating, parking, safety</td><td>Store interior and surrounds</td><td>App UI clarity, web experience</td><td>Retail ops / Product</td></tr>
+            <tr><td><strong>Wait time &amp; queue</strong></td><td>Queue length, token system, counter staffing, appointment delay</td><td>Billing and consultation queues</td><td>Load time, processing delay, callback wait</td><td>Store manager / Engineering</td></tr>
+            <tr><td><strong>Inventory &amp; availability</strong></td><td>Out of stock, size or variant gap, display vs actual, range depth</td><td>SKU availability in store</td><td>Feature availability, plan limits</td><td>Merchandising / Product</td></tr>
+            <tr><td><strong>Pricing &amp; value</strong></td><td>Price level, hidden charges, discount clarity, comparison to rivals</td><td>Making charges, offer terms</td><td>Fees, plan pricing, renewal cost</td><td>Pricing / Product</td></tr>
+            <tr><td><strong>Product or service quality</strong></td><td>Durability, finish, defect, accuracy, performance, taste or fit</td><td>Craftsmanship, certification</td><td>Stability, correctness, uptime</td><td>Quality / Engineering</td></tr>
+            <tr><td><strong>Billing &amp; checkout</strong></td><td>Payment failure, invoice error, GST or tax handling, receipt</td><td>Counter billing</td><td>Payment flow, invoicing</td><td>Finance ops / Engineering</td></tr>
+            <tr><td><strong>Location &amp; accessibility</strong></td><td>Findability, hours, wheelchair access, transport, listing accuracy</td><td>Store listing and premises</td><td>Channel availability, device or OS support</td><td>Retail ops / Product</td></tr>
+            <tr><td><strong>Delivery &amp; fulfilment</strong></td><td>Delay, damage, wrong item, tracking silence, pickup failure</td><td>Home delivery, try-at-home</td><td>Provisioning, activation, dispatch</td><td>Supply chain</td></tr>
+            <tr><td><strong>Customer support</strong></td><td>Responsiveness, scripted replies, escalation, resolution quality</td><td>Store and central support</td><td>Chat, email, phone, in-app</td><td>Support lead</td></tr>
+            <tr><td><strong>Returns, refunds &amp; exchange</strong></td><td>Policy clarity, refund delay, buyback terms, exchange friction</td><td>Buyback, exchange counters</td><td>Cancellation, downgrade, refund</td><td>Support / Finance ops</td></tr>
+            <tr><td><strong>Trust, authenticity &amp; compliance</strong></td><td>Certification doubt, hallmark, fraud accusation, data privacy, mis-selling</td><td>Purity and certification claims</td><td>Data handling, disclosure, security</td><td>Brand / Compliance</td></tr>
+            <tr><td><strong>Competitor mentions</strong></td><td>Named rival, comparison dimension, switch intent, switch completed</td><td>Nearby brand, other mall store</td><td>Rival app or provider</td><td>Brand / Strategy</td></tr>
+            <tr><td><strong>Occasion &amp; seasonality</strong></td><td>Festival, wedding, gifting, sale period, month-end, payday</td><td>Festive and wedding peaks</td><td>Renewal cycles, tax season</td><td>Marketing / Ops planning</td></tr>
+            <tr><td><strong>Loyalty &amp; repeat signals</strong></td><td>Repeat purchase, advocacy, referral, long-tenure mention, churn signal</td><td>Returning customer language</td><td>Tenure, plan upgrades, advocacy</td><td>CRM / CX lead</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Tenants extend this set rather than replace it — a clinic adds <em>clinical outcome</em> and <em>appointment scheduling</em>; a QSR adds <em>food temperature</em> and <em>order accuracy</em>. Extensions live under a universal parent so cross-tenant benchmarking stays possible.</p>
+    </section>
+
+    <hr>
+
+    <section id="patterns">
+      <span class="eyebrow">Analytics</span>
+      <h2>Advanced insight patterns</h2>
+      <p class="lede">The insight engine is a library of patterns, each binding to whichever entity dimension the tenant declares. The same pattern that finds a struggling store finds a struggling product.</p>
+
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Pattern</th><th>What it detects</th><th>Inputs required</th><th>What it must not claim</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Entity sentiment ranking</strong></td><td>Best and worst entities against the network, spread-aware</td><td>Rating, sentiment, entity, minimum n</td><td>That low rating means low performance when n is small</td></tr>
+            <tr><td><strong>Geographic variance</strong></td><td>Cities or regions whose internal spread exceeds their gap to the mean</td><td>Entity geography, entity means</td><td>That a weak region is uniformly weak</td></tr>
+            <tr><td><strong>Time-band behaviour</strong></td><td>Themes concentrating on a weekday, weekend or shift window</td><td>Visit or capture timestamp, theme, entity</td><td>Staff accountability without rota data joined</td></tr>
+            <tr><td><strong>Silent churn</strong></td><td>Review velocity falling sharply with no rating decline</td><td>Velocity trend, source health, entity</td><td>Lost customers — needs footfall or transaction data to confirm</td></tr>
+            <tr><td><strong>Demand signal</strong></td><td>Velocity rising ahead of a known season or launch</td><td>Velocity trend, calendar, category</td><td>Sales forecast without revenue data joined</td></tr>
+            <tr><td><strong>Availability perception gap</strong></td><td>Stock complaints high where inventory data says stock is healthy</td><td>Inventory theme rate, stock feed, entity</td><td>Anything, unless the stock feed is joined at the same grain</td></tr>
+            <tr><td><strong>Wait-time spike</strong></td><td>Queue mentions breaching a control band for an entity and period</td><td>Theme rate, entity, period, control band</td><td>Actual wait duration — this is reported, not measured</td></tr>
+            <tr><td><strong>Switch intent</strong></td><td>Competitor mention plus stated intent to leave, by comparison dimension</td><td>Competitor mention, intent classifier</td><td>Churn rate or market share</td></tr>
+            <tr><td><strong>Occasion-linked dip</strong></td><td>Sentiment falling in a repeatable window around a seasonal peak</td><td>≥2 prior cycles, calendar, sentiment</td><td>A pattern from a single observed season</td></tr>
+            <tr><td><strong>Policy vs reality gap</strong></td><td>Complaints citing a published promise — offer terms, SLA, warranty</td><td>Theme, policy reference list, text</td><td>Legal exposure — this is a CX signal, not a compliance finding</td></tr>
+            <tr><td><strong>Review-to-revenue correlation</strong></td><td>Association between theme rates and sales at matched grain and lag</td><td>Sales data joined by entity and period</td><td>Causation, or any figure at all when sales data is absent</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note"><p><strong>Every pattern emits the same envelope:</strong> <span class="m">headline · severity · confidence · evidence_count · denominator · affected_entities · sampled_quotes · limitations · suggested_owner</span>. A pattern that cannot fill the denominator or limitations fields does not publish an insight.</p></div>
+    </section>
+
+    <hr>
+
+    <section id="data">
+      <span class="eyebrow">Engineering</span>
+      <h2>Common data model</h2>
+      <p class="lede">Raw source records are kept immutable and separate from the normalised layer, so a re-theming or a model upgrade replays from source without re-scraping.</p>
+
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Entity</th><th>Key fields</th><th>Relationships</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><strong>company</strong></td><td><span class="m">id, name, type, residency, branding_ref, config_ref, status</span></td><td>Root of everything</td><td><span class="m">type</span> drives the page set. Every other table carries <span class="m">company_id</span>.</td></tr>
+            <tr><td><strong>brand</strong></td><td><span class="m">id, company_id, name, logo_ref</span></td><td>→ company</td><td>Multi-brand groups (Titan → Tanishq, Taneira) sit here, not as separate tenants</td></tr>
+            <tr><td><strong>entity</strong></td><td><span class="m">id, company_id, brand_id, type, parent_id, name, external_ref, attributes</span></td><td>Self-referencing tree</td><td>One polymorphic table for store, city, region, product, app, channel, plan, segment. <span class="m">type</span> plus tenant hierarchy gives meaning.</td></tr>
+            <tr><td><strong>store_profile</strong></td><td><span class="m">entity_id, geo, format, opened_on, cluster, floor_area, manager_id</span></td><td>→ entity</td><td>Store-specific attributes kept out of the generic entity table</td></tr>
+            <tr><td><strong>source</strong></td><td><span class="m">id, company_id, kind, granularity, auth_state, capabilities, history_start, sla_hours</span></td><td>→ company</td><td><span class="m">capabilities</span> declares rating scale, text, reply support, language, location. This is what gates a source from a page.</td></tr>
+            <tr><td><strong>source_record</strong></td><td><span class="m">id, source_id, external_id, payload_raw, captured_at, ingest_run_id, checksum</span></td><td>→ source, ingest_run</td><td>Immutable. Never edited, never deleted on re-ingest.</td></tr>
+            <tr><td><strong>feedback</strong></td><td><span class="m">id, company_id, source_record_id, entity_id, entity_match_score, occurred_at, rating_raw, rating_scale, rating_norm, language, text_raw, text_translated, reply_text, replied_at, dedupe_group</span></td><td>→ source_record, entity, reviewer</td><td>The normalised record everything queries. One row per unique piece of feedback after dedupe.</td></tr>
+            <tr><td><strong>reviewer</strong></td><td><span class="m">id, company_id, pseudonym, source_handle_hash, is_repeat, first_seen_at, consent_state</span></td><td>→ feedback</td><td>Pseudonymised by default. Raw handles hashed. Retention policy per tenant residency.</td></tr>
+            <tr><td><strong>sentiment</strong></td><td><span class="m">feedback_id, label, score, model_version, origin</span></td><td>→ feedback</td><td><span class="m">origin</span> is <span class="m">model</span> or <span class="m">rating_derived</span> — the UI must be able to tell them apart</td></tr>
+            <tr><td><strong>theme_mention</strong></td><td><span class="m">feedback_id, theme_id, subtheme_id, confidence, polarity, span_start, span_end, model_version</span></td><td>→ feedback, taxonomy</td><td>Spans let the UI highlight the phrase that triggered the label</td></tr>
+            <tr><td><strong>taxonomy</strong></td><td><span class="m">id, company_id, parent_id, name, scope, synonyms, threshold, is_universal</span></td><td>Self-referencing</td><td>Universal nodes shared; tenant extensions hang off a universal parent</td></tr>
+            <tr><td><strong>competitor_mention</strong></td><td><span class="m">feedback_id, competitor_entity, comparison_dimension, switch_intent, confidence</span></td><td>→ feedback</td><td>Competitors are a reference list per tenant, not free text</td></tr>
+            <tr><td><strong>insight</strong></td><td><span class="m">id, company_id, pattern_id, headline, severity, confidence, evidence_count, denominator, scope_entity_ids, period, status, first_seen_at, limitations</span></td><td>→ evidence_link, action</td><td>Recomputed each run; identity is stable so status and history survive</td></tr>
+            <tr><td><strong>evidence_link</strong></td><td><span class="m">insight_id, feedback_id, rank, is_sampled</span></td><td>→ insight, feedback</td><td>Makes "show me the reviews behind this" a join, not a re-query</td></tr>
+            <tr><td><strong>action</strong></td><td><span class="m">id, company_id, insight_id, title, owner_id, owner_group, entity_scope, severity, sla_days, status, opened_at, closed_at, outcome, baseline_metric, verification_window</span></td><td>→ insight, user</td><td>Baseline captured at open so verification has something to compare against</td></tr>
+            <tr><td><strong>report</strong></td><td><span class="m">id, company_id, template_id, scope, period, generated_at, data_as_of, snapshot_ref, recipients</span></td><td>→ company</td><td><span class="m">data_as_of</span> is distinct from <span class="m">generated_at</span> — a report built on stale data says so</td></tr>
+            <tr><td><strong>ingest_run</strong></td><td><span class="m">id, source_id, started_at, ended_at, status, records_new, records_dup, records_failed, coverage_note, scraper_version</span></td><td>→ source</td><td>The existing scraper's run-info shape is already close to this — keep it</td></tr>
+            <tr><td><strong>data_quality_issue</strong></td><td><span class="m">id, company_id, kind, severity, affected_count, detected_at, resolved_at, assignee</span></td><td>→ source, entity</td><td>Unmapped entities, expired auth, missing fields, schema drift</td></tr>
+            <tr><td><strong>user / role</strong></td><td><span class="m">id, company_id, email, role, entity_scope, pii_visible, export_allowed</span></td><td>→ company</td><td>A person provisioned for two companies has two user rows. Sessions never span them.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Normalisation rules that must be explicit</h3>
+      <ul>
+        <li><strong>Rating rescaling.</strong> Store <span class="m">rating_raw</span> with <span class="m">rating_scale</span>, and derive <span class="m">rating_norm</span> on 1–5. NPS 0–10, thumbs, and 1–10 scales each need a documented mapping, not an implicit one.</li>
+        <li><strong>Dedupe.</strong> Same text posted to two sources, and the same review re-scraped, join one <span class="m">dedupe_group</span>. One row counts; the others remain queryable as alternates.</li>
+        <li><strong>Entity resolution.</strong> Listing name and address → store master, with a match score. Below threshold, the record lands in the data-quality queue rather than being silently attached or silently dropped.</li>
+        <li><strong>Time.</strong> <span class="m">occurred_at</span> (when the experience happened, where known), <span class="m">posted_at</span>, and <span class="m">captured_at</span> are three different fields. Scraped sources often only give the third.</li>
+        <li><strong>Language.</strong> Detect, translate, theme on the translation, display the original with the translation available. The existing scraper already pulls 13 languages — the pipeline must not quietly drop twelve of them.</li>
+      </ul>
+    </section>
+
+    <hr>
+
+    <section id="analytics">
+      <span class="eyebrow">Requirements</span>
+      <h2>Analytics requirements</h2>
+      <div class="cols2">
+        <div>
+          <h4>Pipeline</h4>
+          <ul>
+            <li>Incremental ingestion per source with checkpointing; a failed run never loses the prior watermark.</li>
+            <li>Theming and sentiment run as replayable jobs over <span class="m">source_record</span>, versioned by model, so an upgrade re-derives history instead of re-scraping.</li>
+            <li>Insight patterns run on a schedule per tenant, writing stable insight identities so status and age persist across runs.</li>
+            <li>Pre-aggregated rollups by entity × theme × period for dashboard latency; the feed always queries the base table.</li>
+          </ul>
+          <h4>Statistical discipline</h4>
+          <ul>
+            <li>Minimum-n threshold per tenant, applied to every ranking, benchmark, map shade and insight.</li>
+            <li>Control bands for anomaly detection derived from the entity's own history, not a global constant.</li>
+            <li>Comparison periods matched for length and seasonality; a 90-day window compares to the prior 90 days, with the same-period-last-year available.</li>
+            <li>Every model reports precision on a maintained labelled sample, visible in the product.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Honesty constraints</h4>
+          <ul>
+            <li>No revenue or footfall claim without that data joined at the same entity and period grain.</li>
+            <li>Sentiment origin (<span class="m">model</span> vs <span class="m">rating_derived</span>) is carried through to every chart that shows sentiment.</li>
+            <li>Percentages below a stated sample size render as a count, not a percentage — 2 of 3 is not 67%.</li>
+            <li>A source outage is shown on any chart whose period it overlaps, so a volume drop is not read as a demand drop.</li>
+          </ul>
+          <h4>Performance targets</h4>
+          <ul>
+            <li>Dashboard pages under 2s at p95 for a tenant with 5M feedback rows.</li>
+            <li>Feed search under 1s at p95 with facets applied.</li>
+            <li>Insight recompute within the nightly window for the largest tenant.</li>
+            <li>Ingestion backlog alarm when any source exceeds its <span class="m">sla_hours</span>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="ui">
+      <span class="eyebrow">Requirements</span>
+      <h2>UI requirements</h2>
+      <div class="cols2">
+        <div>
+          <h4>Shell &amp; configuration</h4>
+          <ul>
+            <li>One codebase, one component library; tenants differ only by configuration and theme tokens.</li>
+            <li>Branding applied from the config bundle at boot — logo, wordmark, accent, report cover.</li>
+            <li>Nav built from the enabled page set; disabled routes 404.</li>
+            <li>Filter registry is config-driven, so adding a tenant dimension needs no UI code.</li>
+          </ul>
+          <h4>Filters &amp; state</h4>
+          <ul>
+            <li>Global filter bar, state in the URL, preserved across navigation.</li>
+            <li>Standard set: date, comparison, source, entity scope, rating, sentiment, theme, category, issue type.</li>
+            <li>Saved views per user; shared views per team.</li>
+            <li>Match count visible on the filter bar at all times.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Evidence &amp; disclosure</h4>
+          <ul>
+            <li>Every insight, KPI and chart element links to the reviews behind it.</li>
+            <li>Every figure displays sample size and denominator; every chart states its excluded sources.</li>
+            <li>Data freshness shown in the page header, not in settings.</li>
+            <li>Confidence and limitations render as first-class page content, never tooltips.</li>
+          </ul>
+          <h4>Craft</h4>
+          <ul>
+            <li>Semantic colour (critical / warning / healthy) is distinct from the tenant accent, so branding never changes what a status means.</li>
+            <li>Tables sortable on every column, with sticky headers and a column picker.</li>
+            <li>Keyboard navigation and visible focus throughout; charts have accessible table equivalents.</li>
+            <li>Exports carry the filter state, the data-as-of timestamp and the limitations text.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="tenancy">
+      <span class="eyebrow">Engineering</span>
+      <h2>Tenancy, configurability &amp; scale</h2>
+      <div class="cols2">
+        <div>
+          <h4>Tenant safety</h4>
+          <ul>
+            <li><span class="m">company_id</span> enforced at the data layer — row-level security or schema-per-tenant — never by application filtering alone.</li>
+            <li>Token scoped to one company; a user provisioned for several signs in separately per company.</li>
+            <li>Sign-out clears all cached tenant state, including saved views and local storage.</li>
+            <li>No cross-tenant model training. Shared universal taxonomy, isolated tenant data.</li>
+            <li>Per-tenant residency and retention honoured in storage, backups and exports.</li>
+            <li>Audit log for every export, reply posted, permission change and config edit.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Scaling to hundreds of sources</h4>
+          <ul>
+            <li>Connector SDK with a fixed contract: authenticate, fetch incrementally, emit a raw record, declare capabilities. A new source is a plugin, not a release.</li>
+            <li>Capability declaration is load-bearing — granularity decides which pages a source may feed, automatically.</li>
+            <li>Rate limiting, retry and backoff handled by the framework, not per connector.</li>
+            <li>Onboarding a tenant is a config bundle plus an entity master import, targeted at days rather than weeks.</li>
+            <li>Taxonomy versioned per tenant, with re-theming replayed from raw records.</li>
+            <li>Config validated on write; an invalid bundle fails at provisioning, never at a user's login.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="gaps">
+      <span class="eyebrow">Delta</span>
+      <h2>Gaps to close</h2>
+      <p class="lede">The distance between the deployed build and the framework above, ordered by what blocks the next thing.</p>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Gap</th><th>Today</th><th>Required</th><th>Blocks</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Tenancy</strong></td><td>Brand hardcoded, no auth</td><td>Login, company selection, config bundle, scoped queries</td><td>Everything multi-tenant</td></tr>
+            <tr><td><strong>Entity master</strong></td><td>Six mock stores in a JS file</td><td>Store or product master with external refs and hierarchy</td><td>All store, city, region and product pages</td></tr>
+            <tr><td><strong>Entity resolution</strong></td><td>None</td><td>Listing-to-master matcher with score and a review queue</td><td>Any location analytics</td></tr>
+            <tr><td><strong>Source breadth</strong></td><td>Play Store only</td><td>Google Maps first, then directories, marketplace, support, survey</td><td>Cross-source claims, coverage metrics</td></tr>
+            <tr><td><strong>Normalised schema</strong></td><td>Nine-field flat review object</td><td>Full feedback model with provenance, scales, language, entity link</td><td>Every downstream feature</td></tr>
+            <tr><td><strong>Sentiment</strong></td><td>Bucketed from star rating</td><td>Text model with version, score and origin flag</td><td>Credible sentiment KPIs</td></tr>
+            <tr><td><strong>Theming</strong></td><td>None — themes exist only inside hand-written insights</td><td>Taxonomy plus classifier emitting confidence and spans</td><td>Theme filters, all theme analytics</td></tr>
+            <tr><td><strong>Insight generation</strong></td><td>Seven static findings</td><td>Pattern library, scheduled runs, stable identities, evidence links</td><td>Insights page, actions, reports</td></tr>
+            <tr><td><strong>Filter architecture</strong></td><td>Local state per view</td><td>Global URL-backed filter store with a config-driven registry</td><td>Drilldowns, shared links, saved views</td></tr>
+            <tr><td><strong>Action layer</strong></td><td>None</td><td>Actions, routing rules, SLAs, verification watch</td><td>Any operational outcome</td></tr>
+            <tr><td><strong>Data hub</strong></td><td>Run info exists but is not surfaced</td><td>Connector health, quality queue, freshness, coverage — in the product</td><td>Trust in every other number</td></tr>
+            <tr><td><strong>Reports</strong></td><td>Export buttons with no behaviour</td><td>Templates, schedules, branded output, frozen snapshots</td><td>Executive adoption</td></tr>
+            <tr><td><strong>Permissions</strong></td><td>None</td><td>Roles, entity scoping, PII and export controls, audit log</td><td>Enterprise deployment</td></tr>
+            <tr><td><strong>Competitor analysis</strong></td><td>Keyword counts as low as 2 presented as comparison</td><td>Reference list, comparison dimensions, minimum-n suppression</td><td>Credible brand reporting</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="owners">
+      <span class="eyebrow">Discovery</span>
+      <h2>What to collect from owners</h2>
+      <p class="lede">Questions to put to each group before build. Anything unanswered here becomes an assumption baked into the schema.</p>
+
+      <div class="cols2">
+        <div>
+          <h3>Data owners</h3>
+          <ul>
+            <li>Store or product master: system of record, refresh cadence, unique key, and whether closed entities are retained.</li>
+            <li>Which sources have owned accounts and API access, and who holds the credentials.</li>
+            <li>Historical depth available per source, and whether backfill is permitted.</li>
+            <li>Whether sales, footfall, inventory, ticket and CRM data can be joined — at what grain, with what lag, under what agreement.</li>
+            <li>PII policy: what may be stored, for how long, in which region, and who may see reviewer identity.</li>
+            <li>Existing warehouse and whether this platform reads from it or ingests independently.</li>
+          </ul>
+
+          <h3>Analytics owners</h3>
+          <ul>
+            <li>Metric definitions already in use, so the KPI dictionary reconciles rather than competes.</li>
+            <li>Existing taxonomy, tagging or coding frames worth preserving.</li>
+            <li>Acceptable minimum-n threshold and confidence floor for publishing an insight.</li>
+            <li>Whether a labelled sample exists for model evaluation, and who maintains it.</li>
+            <li>Seasonality calendar: festivals, sale periods, launch windows, fiscal boundaries.</li>
+            <li>Which claims the organisation will not accept without statistical backing.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Business owners</h3>
+          <ul>
+            <li>The decisions this product must support, named concretely — and who makes each one.</li>
+            <li>Current reporting cadence, formats and audiences to be replaced or fed.</li>
+            <li>Escalation paths and SLAs already in force, so routing rules mirror reality.</li>
+            <li>Entity hierarchy as the business actually uses it, including clusters and formats that are not on any org chart.</li>
+            <li>Competitor set worth tracking, by market.</li>
+            <li>What a good quarter looks like in this product's terms — the definition of success.</li>
+          </ul>
+
+          <h3>UI / product owners</h3>
+          <ul>
+            <li>Primary users per page and their working context — desk, shop floor, mobile.</li>
+            <li>Brand assets and any existing design system or token set.</li>
+            <li>Localisation scope: interface languages, review display languages, date and number formats.</li>
+            <li>Accessibility standard to meet, and whether it is contractual.</li>
+            <li>Role matrix: who sees which entities, which fields, and who may export.</li>
+            <li>Whether replying to public reviews happens in this product or stays in an existing tool.</li>
+          </ul>
+
+          <h3>Engineering owners</h3>
+          <ul>
+            <li>Tenancy isolation model: RLS, schema-per-tenant or separate databases — and why.</li>
+            <li>Identity provider and SSO requirements per tenant.</li>
+            <li>Hosting, residency and compliance obligations by market.</li>
+            <li>Expected tenant count, entity count and record volume at 12 and 36 months.</li>
+            <li>Build-versus-buy for sentiment and theming, and the cost envelope for inference.</li>
+            <li>Operational ownership: who is paged when a connector breaks at 3am.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+
+    <section id="roadmap">
+      <span class="eyebrow">Sequence</span>
+      <h2>MVP and beyond</h2>
+      <p class="lede">Ordered so each phase is usable on its own. Phase one earns trust in the numbers; phase two makes them act on them.</p>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+
+        <div class="phase">
+          <div class="phase-h"><span class="phase-n">Phase 1</span><span class="phase-t">Trustworthy foundation</span><span class="phase-when">One store-based tenant, end to end</span></div>
+          <ul>
+            <li>Login with company selection; config bundle; <span class="m">company_id</span> enforced at the data layer.</li>
+            <li>Normalised feedback schema; Google Maps and app-store connectors; entity resolution against a store master.</li>
+            <li>Text sentiment and the 15-theme universal taxonomy with confidence scores.</li>
+            <li>Overview, Reviews Feed, Insights, Store Performance, City &amp; Region, Data Hub.</li>
+            <li>Global URL-backed filters; evidence links everywhere; sample size and denominator on every figure.</li>
+            <li>Insight patterns: entity ranking, geographic variance, wait-time spike, policy-vs-reality gap.</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-h"><span class="phase-n">Phase 2</span><span class="phase-t">Operational loop</span><span class="phase-when">Second tenant, non-store</span></div>
+          <ul>
+            <li>Actions, routing rules, SLAs, escalation, post-close verification watch.</li>
+            <li>Non-store page set: Product &amp; App, Channel, Segments &amp; Cohorts, Journey Stages.</li>
+            <li>Reports: templates, schedules, branded PDF, frozen snapshots.</li>
+            <li>Roles and entity scoping; PII controls; audit log.</li>
+            <li>Support, survey and marketplace connectors; reply posting where the source allows.</li>
+            <li>Patterns added: silent churn, time-band behaviour, switch intent, occasion-linked dip.</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-h"><span class="phase-n">Phase 3</span><span class="phase-t">Scale and self-service</span><span class="phase-when">Many tenants</span></div>
+          <ul>
+            <li>Connector SDK and a source catalogue; onboarding a source without a platform release.</li>
+            <li>Tenant provisioning console: taxonomy editor, entity import, branding, page-set configuration.</li>
+            <li>Cross-brand rollups for groups; per-brand and group-level views.</li>
+            <li>Multi-language interface; regional residency options.</li>
+            <li>Alerting and digests: threshold breaches, new critical insights, source outages.</li>
+          </ul>
+        </div>
+
+        <div class="phase">
+          <div class="phase-h"><span class="phase-n">Phase 4</span><span class="phase-t">Business-outcome linkage</span><span class="phase-when">Where the data exists</span></div>
+          <ul>
+            <li>Sales, footfall and inventory joins at matched grain — unlocking availability-gap and revenue-correlation patterns.</li>
+            <li>Predictive patterns: entities trending toward threshold breach, seasonal demand signals.</li>
+            <li>Natural-language query over the corpus, answering only with cited evidence.</li>
+            <li>Benchmarking against anonymised category norms, subject to tenant consent.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <p class="end">
+      Companion artefact — nine mid-fidelity wireframes covering login, the store-based page set, and the non-store variant.<br>
+      Figures shown in the wireframes are illustrative sample values, not measurements from the current corpus. The only real figures cited in this document are from the deployed build: 3,179 Play Store reviews, 3.84 average rating, six mock stores, and competitor mention counts of 14, 10 and 2.
+    </p>
+
+  </main>
+</div>

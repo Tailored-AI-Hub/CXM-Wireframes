@@ -1,0 +1,249 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    body{margin:0;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;color:#4b4d52;background:#f7f7f6;-webkit-font-smoothing:antialiased;}
+    a{color:#a8512c;} a:hover{color:#8a4023;}
+    .cap{font:600 9.5px/1.25 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.13em;text-transform:uppercase;color:#6f7278;}
+    .pnl{background:#fff;border:1px solid #dcdde0;border-radius:3px;}
+    .h{font:600 14px/1.25 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .sub{font:400 11px/1.45 'IBM Plex Sans',sans-serif;color:#6f7278;}
+    .num{font:600 26px/1 'IBM Plex Sans',sans-serif;letter-spacing:-.025em;color:#17181a;}
+    .chip{display:flex;align-items:center;gap:6px;border:1px solid #dcdde0;background:#fff;border-radius:2px;padding:7px 9px;font:500 11px/1 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .btn{display:flex;align-items:center;gap:6px;border:1px solid #dcdde0;background:#fff;border-radius:2px;padding:8px 12px;font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .btn-p{background:#17181a;border-color:#17181a;color:#fff;}
+    .tag{font:600 8.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase;padding:3px 5px;border-radius:2px;border:1px solid #dcdde0;background:#f2f2f3;color:#6f7278;}
+    .tag-c{background:#f7ede7;border-color:#e3cbbd;color:#a8512c;}
+    .tag-k{background:#17181a;color:#fff;border-color:#17181a;}
+    .nav{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:3px;font:500 12.5px/1 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .nav-on{background:#17181a;color:#fff;}
+    .ico{width:13px;height:13px;flex:none;border:1.2px solid currentColor;border-radius:2px;opacity:.5;}
+    .ico-on{background:currentColor;opacity:.9;}
+    .foot{font:400 9.5px/1.4 'IBM Plex Mono',ui-monospace,monospace;color:#7c7f85;}
+    .td{font:400 11.5px/1.4 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .tdk{font:500 11.5px/1.35 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .th{font:600 9px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:#6f7278;}
+    .quote{font:400 12px/1.5 'IBM Plex Sans',sans-serif;color:#2f3135;}
+  </style>
+</helmet>
+
+<div style="display:flex;width:1440px;height:1240px;overflow:hidden;background:#f7f7f6;">
+
+  <aside style="width:236px;flex:none;background:#fff;border-right:1px solid #dcdde0;display:flex;flex-direction:column;">
+    <div style="padding:16px 14px 13px;border-bottom:1px solid #ececed;display:flex;align-items:center;gap:10px;">
+      <div style="width:34px;height:34px;flex:none;border:1px solid #dcdde0;border-radius:3px;background:#f2f2f3;display:grid;place-items:center;"><span class="cap">Logo</span></div>
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+        <div style="font:600 13.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;">Titan Company</div><span class="cap">Store-based · IN</span>
+      </div>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:2px;padding:11px 10px;">
+      <div class="cap" style="padding:6px 8px;">Monitor</div>
+      <div class="nav"><span class="ico"></span>Overview</div>
+      <div class="nav"><span class="ico"></span>Reviews Feed</div>
+      <div class="nav"><span class="ico"></span>Insights</div>
+      <div class="cap" style="padding:15px 8px 6px;display:flex;align-items:center;gap:6px;">Network <span class="tag tag-c">Store only</span></div>
+      <div class="nav"><span class="ico"></span>Store Performance</div>
+      <div class="nav"><span class="ico"></span>City &amp; Region</div>
+      <div class="cap" style="padding:15px 8px 6px;">Experience</div>
+      <div class="nav"><span class="ico"></span>Product &amp; Service</div>
+      <div class="nav nav-on"><span class="ico ico-on"></span>Staff &amp; Service Quality</div>
+      <div class="nav"><span class="ico"></span>Delivery &amp; Fulfilment</div>
+      <div class="nav"><span class="ico"></span>Support &amp; Resolution</div>
+      <div class="nav"><span class="ico"></span>Competitor &amp; Trust</div>
+      <div class="cap" style="padding:15px 8px 6px;">Operate</div>
+      <div class="nav"><span class="ico"></span>Actions &amp; Workflows</div>
+      <div class="nav"><span class="ico"></span>Reports</div>
+      <div class="cap" style="padding:15px 8px 6px;">Platform</div>
+      <div class="nav"><span class="ico"></span>Data Hub</div>
+    </nav>
+    <div style="margin-top:auto;padding:12px 14px;border-top:1px solid #ececed;display:flex;align-items:center;gap:9px;">
+      <div style="width:26px;height:26px;flex:none;border-radius:50%;background:#f2f2f3;border:1px solid #dcdde0;"></div>
+      <div style="display:flex;flex-direction:column;gap:4px;"><span style="font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;">R. Iyer</span><span class="cap">Regional Mgr · South</span></div>
+    </div>
+  </aside>
+
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+    <header style="height:54px;flex:none;background:#fff;border-bottom:1px solid #dcdde0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 22px;">
+      <div style="display:flex;align-items:center;gap:8px;font:400 12px/1 'IBM Plex Sans',sans-serif;color:#6f7278;">
+        <span>Titan Company</span><span>/</span><span style="color:#17181a;font-weight:600;">Staff &amp; Service Quality</span>
+        <span class="tag tag-c" style="margin-left:6px;">Store-based tenants only</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div class="chip"><span style="width:6px;height:6px;border-radius:50%;background:#17181a;"></span>Data fresh · 14 Sep, 06:00 IST</div>
+        <div class="btn">Save view</div><div class="btn btn-p">Export</div>
+      </div>
+    </header>
+
+    <div style="flex:1;overflow:hidden;padding:20px 22px 24px;display:flex;flex-direction:column;gap:13px;">
+
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <h1 style="margin:0;font:600 22px/1.1 'IBM Plex Sans',sans-serif;letter-spacing:-.02em;color:#17181a;">Staff &amp; service quality</h1>
+          <span class="sub">Turns what customers say about people into coaching and rota decisions — at store and shift level, never at individual performance-management level.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;"><div class="chip">Last 90 days</div><div class="chip">Grain · Store × time band</div></div>
+      </div>
+
+      <div class="pnl" style="padding:11px 13px;display:flex;align-items:flex-start;gap:10px;border-color:#e3cbbd;background:#fdf9f7;">
+        <span class="tag tag-c">Policy</span>
+        <span class="td" style="color:#a8512c;"><strong style="color:#8a4023;">This page is scoped to store and shift, not to individuals.</strong> Named mentions are shown for recognition and for escalating conduct issues only. Individual-level aggregation is disabled by configuration and cannot be turned on from inside the dashboard.</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px;">
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Staff-mention rate</span><span class="num">18.4%</span><span class="foot">of records with text</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Positive share of those</span><span class="num">72%</span><span class="foot">−4 pt vs prev</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Complaints per 1,000</span><span class="num">51</span><span class="foot">network 43</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Weekend gap</span><span class="num">−0.38★</span><span class="foot">Sat–Sun vs Mon–Fri</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Named recognitions</span><span class="num">146</span><span class="foot">eligible for recognition</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Coaching actions open</span><span class="num">22</span><span class="foot">7 breaching SLA</span></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:13px;">
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <span class="h">When service complaints happen</span>
+              <span class="sub">Negative staff mentions by day and time band, across the stores in scope. Dark cells are where coaching and staffing decisions belong.</span>
+            </div>
+            <div class="chip">Store · All (92)</div>
+          </div>
+          <svg viewBox="0 0 640 224" width="100%" height="224">
+            <g fill="#6f7278" font-family="'IBM Plex Mono',monospace" font-size="9">
+              <text x="0" y="36">10–13</text><text x="0" y="82">13–16</text><text x="0" y="128">16–20</text><text x="0" y="174">20–22</text>
+            </g>
+            <g font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6f7278" text-anchor="middle">
+              <text x="98" y="204">Mon</text><text x="176" y="204">Tue</text><text x="254" y="204">Wed</text><text x="332" y="204">Thu</text><text x="410" y="204">Fri</text><text x="488" y="204">Sat</text><text x="566" y="204">Sun</text>
+            </g>
+            <g>
+              <rect x="60" y="16" width="76" height="42" fill="#f0f0f1"/><rect x="138" y="16" width="76" height="42" fill="#f0f0f1"/><rect x="216" y="16" width="76" height="42" fill="#eaeaec"/><rect x="294" y="16" width="76" height="42" fill="#eaeaec"/><rect x="372" y="16" width="76" height="42" fill="#e2e3e5"/><rect x="450" y="16" width="76" height="42" fill="#c9cbcf"/><rect x="528" y="16" width="76" height="42" fill="#c9cbcf"/>
+              <rect x="60" y="62" width="76" height="42" fill="#f0f0f1"/><rect x="138" y="62" width="76" height="42" fill="#eaeaec"/><rect x="216" y="62" width="76" height="42" fill="#eaeaec"/><rect x="294" y="62" width="76" height="42" fill="#e2e3e5"/><rect x="372" y="62" width="76" height="42" fill="#c9cbcf"/><rect x="450" y="62" width="76" height="42" fill="#9a9da2"/><rect x="528" y="62" width="76" height="42" fill="#9a9da2"/>
+              <rect x="60" y="108" width="76" height="42" fill="#eaeaec"/><rect x="138" y="108" width="76" height="42" fill="#e2e3e5"/><rect x="216" y="108" width="76" height="42" fill="#e2e3e5"/><rect x="294" y="108" width="76" height="42" fill="#c9cbcf"/><rect x="372" y="108" width="76" height="42" fill="#9a9da2"/><rect x="450" y="108" width="76" height="42" fill="#2f3135"/><rect x="528" y="108" width="76" height="42" fill="#4b4d52"/>
+              <rect x="60" y="154" width="76" height="42" fill="#f4f4f5"/><rect x="138" y="154" width="76" height="42" fill="#f4f4f5"/><rect x="216" y="154" width="76" height="42" fill="#f0f0f1"/><rect x="294" y="154" width="76" height="42" fill="#eaeaec"/><rect x="372" y="154" width="76" height="42" fill="#e2e3e5"/><rect x="450" y="154" width="76" height="42" fill="#9a9da2"/><rect x="528" y="154" width="76" height="42" fill="#c9cbcf"/>
+            </g>
+            <g fill="#fff" font-family="'IBM Plex Mono',monospace" font-size="10" text-anchor="middle" font-weight="600">
+              <text x="488" y="134">218</text><text x="566" y="134">141</text>
+            </g>
+            <text x="60" y="220" fill="#7c7f85" font-family="'IBM Plex Mono',monospace" font-size="9">Negative staff mentions · n=1,204 · visit time inferred from review timestamp where the source provides it</text>
+          </svg>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Behaviour sub-themes</span>
+            <span class="sub">What "bad service" actually means in the text.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Attentiveness — ignored or unattended</span><span class="td">412</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:82%;background:#17181a;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Product knowledge gaps</span><span class="td">296</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:59%;background:#4b4d52;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Sales pressure</span><span class="td">218</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:43%;background:#83868c;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Courtesy and tone</span><span class="td">164</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:33%;background:#a5a8ad;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Handover between staff</span><span class="td">114</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:23%;background:#c0c2c6;"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:auto;border-top:1px solid #ececed;padding-top:11px;display:flex;flex-direction:column;gap:6px;">
+            <span class="cap">Contrast</span>
+            <span class="td">Positive staff mentions are dominated by <span class="tdk">patience and no-pressure advice</span> — the inverse of the top two complaints. Coaching content follows directly.</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,0.95fr);gap:13px;">
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span class="h">Stores by staff sentiment</span><div class="chip">Min 30 reviews</div>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 54px 50px;gap:9px;padding-bottom:8px;border-bottom:1px solid #dcdde0;">
+            <span class="th">Store</span><span class="th" style="text-align:right;">Mentions</span><span class="th" style="text-align:right;">Pos %</span><span class="th" style="text-align:right;">Δ</span>
+          </div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Phoenix Marketcity</span><span class="td" style="text-align:right;">184</span><span class="tdk" style="text-align:right;">91%</span><span class="td" style="text-align:right;">+6</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Anna Nagar</span><span class="td" style="text-align:right;">96</span><span class="tdk" style="text-align:right;">86%</span><span class="td" style="text-align:right;">+3</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Phoenix Palladium</span><span class="td" style="text-align:right;">211</span><span class="tdk" style="text-align:right;">78%</span><span class="td" style="text-align:right;">−2</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 54px 50px;gap:9px;padding:8px 0;border-bottom:1px solid #ececed;"><span class="tdk">Indiranagar</span><span class="td" style="text-align:right;">88</span><span class="tdk" style="text-align:right;">61%</span><span class="td" style="text-align:right;">−11</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) 56px 54px 50px;gap:9px;padding:8px 0;"><span class="tdk">Connaught Place</span><span class="td" style="text-align:right;">142</span><span class="tdk" style="text-align:right;">54%</span><span class="td" style="text-align:right;">−17</span></div>
+          <div style="margin-top:auto;padding-top:11px;border-top:1px solid #ececed;">
+            <span class="foot">New stores under 6 months old are flagged separately — their staff scores are not comparable to mature stores.</span>
+          </div>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span class="h">Named mentions</span><span class="tag tag-c">Recognition only</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="border-left:2px solid #17181a;padding:2px 0 2px 11px;display:flex;flex-direction:column;gap:5px;">
+              <p class="quote" style="margin:0;">“The consultant spent an hour explaining certification and never pushed a single upsell.”</p>
+              <span class="foot">Google Maps · 5★ · Phoenix Marketcity · 07 Sep</span>
+            </div>
+            <div style="border-left:2px solid #17181a;padding:2px 0 2px 11px;display:flex;flex-direction:column;gap:5px;">
+              <p class="quote" style="margin:0;">“She remembered my anniversary and suggested a matching pendant. Buyback policy explained clearly.”</p>
+              <span class="foot">Google Maps · 5★ · Phoenix Palladium · 04 Sep</span>
+            </div>
+            <div style="border-left:2px solid #6f7278;padding:2px 0 2px 11px;display:flex;flex-direction:column;gap:5px;">
+              <p class="quote" style="margin:0;">“Staff were polite but there was no queue system at all — people who came later were served first.”</p>
+              <span class="foot">Google Maps · 1★ · Indiranagar · 12 Sep · process, not person</span>
+            </div>
+          </div>
+          <div style="margin-top:auto;border:1px dashed #e3cbbd;background:#fdf9f7;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:5px;">
+            <span class="cap" style="color:#a8512c;">Handling rule</span>
+            <span class="td" style="color:#a8512c;">Names in review text are shown to the store manager only, are never stored as a staff identifier, and never aggregate into a per-person score.</span>
+          </div>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Suggested interventions</span>
+            <span class="sub">Generated from the sub-theme and time-band pattern, routed by the standard rules.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <span class="tdk">Add weekend floor cover, 16:00–20:00</span>
+              <span class="sub">14 metro stores · attentiveness complaints peak in this band</span>
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tag">Regional Mgr</span><span class="foot" style="margin-left:auto;">SLA 14d</span></div>
+            </div>
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <span class="tdk">Certification refresher for new joiners</span>
+              <span class="sub">Knowledge gaps cluster in stores with high recent hiring</span>
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tag">L&amp;D</span><span class="foot" style="margin-left:auto;">SLA 30d</span></div>
+            </div>
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <span class="tdk">Review incentive structure at 2 stores</span>
+              <span class="sub">Sales-pressure mentions 3.1× the network rate</span>
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tag">Retail Ops</span><span class="foot" style="margin-left:auto;">SLA 30d</span></div>
+            </div>
+          </div>
+          <div class="btn btn-p" style="margin-top:auto;justify-content:center;">Create 3 actions</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>

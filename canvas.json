@@ -1,0 +1,117 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "Store-based tenant" },
+    { "id": "page-2", "name": "Non-store tenant" }
+  ],
+  "artboards": [
+    { "file": "Login.dc.html", "page": "page-1", "x": 0, "y": 0, "w": 1440, "h": 900, "title": "01 · Login & workspace selection" },
+
+    { "file": "Main.dc.html", "page": "page-1", "x": 0, "y": 1080, "w": 1440, "h": 1240, "title": "02 · Overview" },
+    { "file": "ReviewsFeed.dc.html", "page": "page-1", "x": 1560, "y": 1080, "w": 1440, "h": 1240, "title": "03 · Reviews feed & evidence explorer" },
+    { "file": "Insights.dc.html", "page": "page-1", "x": 3120, "y": 1080, "w": 1440, "h": 1240, "title": "04 · Insights" },
+
+    { "file": "StorePerformance.dc.html", "page": "page-1", "x": 0, "y": 2480, "w": 1440, "h": 1240, "title": "05 · Store performance" },
+    { "file": "CityRegion.dc.html", "page": "page-1", "x": 1560, "y": 2480, "w": 1440, "h": 1240, "title": "06 · City & region performance" },
+    { "file": "ProductService.dc.html", "page": "page-1", "x": 3120, "y": 2480, "w": 1440, "h": 1240, "title": "07 · Product & service experience" },
+
+    { "file": "StaffQuality.dc.html", "page": "page-1", "x": 0, "y": 3880, "w": 1440, "h": 1240, "title": "08 · Staff & service quality" },
+    { "file": "Fulfilment.dc.html", "page": "page-1", "x": 1560, "y": 3880, "w": 1440, "h": 1240, "title": "09 · Delivery & fulfilment" },
+    { "file": "Support.dc.html", "page": "page-1", "x": 3120, "y": 3880, "w": 1440, "h": 1240, "title": "10 · Customer support & resolution" },
+
+    { "file": "Competitor.dc.html", "page": "page-1", "x": 0, "y": 5280, "w": 1440, "h": 1240, "title": "11 · Competitor & brand trust" },
+    { "file": "Actions.dc.html", "page": "page-1", "x": 1560, "y": 5280, "w": 1440, "h": 1240, "title": "12 · Actions & workflows" },
+    { "file": "Reports.dc.html", "page": "page-1", "x": 3120, "y": 5280, "w": 1440, "h": 1240, "title": "13 · Reports" },
+
+    { "file": "DataHub.dc.html", "page": "page-1", "x": 0, "y": 6680, "w": 1440, "h": 1240, "title": "14 · Data hub & source coverage" },
+
+    { "file": "OverviewNonStore.dc.html", "page": "page-2", "x": 0, "y": 0, "w": 1440, "h": 1240, "title": "N1 · Overview — non-store tenant" },
+    { "file": "ProductApp.dc.html", "page": "page-2", "x": 1560, "y": 0, "w": 1440, "h": 1240, "title": "N2 · Product & app portfolio" },
+
+    { "file": "Channels.dc.html", "page": "page-2", "x": 0, "y": 1400, "w": 1440, "h": 1240, "title": "N3 · Channel performance" },
+    { "file": "Segments.dc.html", "page": "page-2", "x": 1560, "y": 1400, "w": 1440, "h": 1240, "title": "N4 · Segments & cohorts" },
+    { "file": "Journey.dc.html", "page": "page-2", "x": 3120, "y": 1400, "w": 1440, "h": 1240, "title": "N5 · Journey stages" }
+  ],
+  "annotations": [
+    {
+      "id": "brief",
+      "page": "page-1",
+      "x": -420,
+      "y": 0,
+      "w": 340,
+      "text": "CXM FRAMEWORK WIREFRAMES\n\nOne dashboard shell, two tenant shapes.\n\nThis page holds the full store-based page set. The second page shows the same shell running as a non-store tenant.\n\nMid-fidelity: real labels, real KPI names, sample values. Structure is the deliverable — colour, iconography and brand come later, per tenant."
+    },
+    {
+      "id": "legend",
+      "page": "page-1",
+      "x": -420,
+      "y": 360,
+      "w": 340,
+      "text": "LEGEND\n\nGreyscale = the common shell every tenant gets.\n\nTerracotta = either (a) an element conditional on company type, or (b) a note about the framework rather than UI.\n\nStrip every terracotta element from a screen and what remains is the non-store build."
+    },
+    {
+      "id": "login-note",
+      "page": "page-1",
+      "x": -420,
+      "y": 660,
+      "w": 340,
+      "text": "01 · LOGIN\n\nThe only place a company is chosen. Sign-in resolves one tenant config bundle: branding, entity model, sources, taxonomy, page set, permissions.\n\nNo switcher exists after this point — switching company means signing out."
+    },
+    {
+      "id": "common-note",
+      "page": "page-1",
+      "x": -420,
+      "y": 1080,
+      "w": 340,
+      "text": "ROW 2 · COMMON CORE\n\nOverview, Reviews Feed and Insights are identical for every tenant.\n\nThree rules hold on all three: every number carries n and a denominator; every insight links to the reviews that produced it; every page states which sources it excludes and why."
+    },
+    {
+      "id": "network-note",
+      "page": "page-1",
+      "x": -420,
+      "y": 2480,
+      "w": 340,
+      "text": "ROW 3 · NETWORK + PRODUCT\n\nStore Performance and City & Region exist only when company_type = STORE_BASED.\n\nProduct & Service is common — it is simply the secondary axis here and the primary one for non-store tenants."
+    },
+    {
+      "id": "experience-note",
+      "page": "page-1",
+      "x": -420,
+      "y": 3880,
+      "w": 340,
+      "text": "ROW 4 · EXPERIENCE\n\nStaff & Service Quality is store-only, and deliberately scoped to store and shift — never to an individual. That constraint is configuration, not a UI preference.\n\nFulfilment and Support are common to both tenant types."
+    },
+    {
+      "id": "operate-note",
+      "page": "page-1",
+      "x": -420,
+      "y": 5280,
+      "w": 340,
+      "text": "ROW 5 · MARKET + OPERATE\n\nCompetitor enforces a minimum-mention floor: the current Bluestone build charts sentiment for competitors with 14 and 2 mentions, which is exactly what the floor prevents.\n\nActions is where an insight becomes someone's job, with an SLA and a verification watch."
+    },
+    {
+      "id": "platform-note",
+      "page": "page-1",
+      "x": -420,
+      "y": 6680,
+      "w": 340,
+      "text": "ROW 6 · PLATFORM\n\nData Hub is where the honesty lives. Source granularity decides which pages a source is allowed to feed — a source with no location can never appear in store analytics.\n\nEvery number elsewhere in the product inherits the limits shown here."
+    },
+    {
+      "id": "swap-note",
+      "page": "page-2",
+      "x": -420,
+      "y": 0,
+      "w": 340,
+      "text": "THE SWAP\n\nCompare N1 against 02 on the previous page: same layout, same modules, same query shapes.\n\nOnly the entity dimension changes — store / city / region becomes product / channel / plan / segment. Hidden pages 404; they are never shown empty."
+    },
+    {
+      "id": "portfolio-note",
+      "page": "page-2",
+      "x": -420,
+      "y": 1400,
+      "w": 340,
+      "text": "PORTFOLIO SET\n\nThese four replace the Network group. Each is the structural twin of a store page:\n\nProduct & App ↔ Store Performance\nChannel Performance ↔ City & Region\nSegments & Cohorts ↔ store clusters\nJourney Stages ↔ no store equivalent — it is the one genuinely new page.\n\nSegments depends on a CRM join, so it states its denominator prominently: 36% of records carry no customer identity at all."
+    }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}

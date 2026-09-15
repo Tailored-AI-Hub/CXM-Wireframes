@@ -1,0 +1,256 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+  <style>
+    body{margin:0;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;color:#4b4d52;background:#f7f7f6;-webkit-font-smoothing:antialiased;}
+    a{color:#a8512c;} a:hover{color:#8a4023;}
+    .cap{font:600 9.5px/1.25 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.13em;text-transform:uppercase;color:#6f7278;}
+    .pnl{background:#fff;border:1px solid #dcdde0;border-radius:3px;}
+    .h{font:600 14px/1.25 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .sub{font:400 11px/1.45 'IBM Plex Sans',sans-serif;color:#6f7278;}
+    .num{font:600 26px/1 'IBM Plex Sans',sans-serif;letter-spacing:-.025em;color:#17181a;}
+    .chip{display:flex;align-items:center;gap:6px;border:1px solid #dcdde0;background:#fff;border-radius:2px;padding:7px 9px;font:500 11px/1 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .btn{display:flex;align-items:center;gap:6px;border:1px solid #dcdde0;background:#fff;border-radius:2px;padding:8px 12px;font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .btn-p{background:#17181a;border-color:#17181a;color:#fff;}
+    .tag{font:600 8.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase;padding:3px 5px;border-radius:2px;border:1px solid #dcdde0;background:#f2f2f3;color:#6f7278;}
+    .tag-c{background:#f7ede7;border-color:#e3cbbd;color:#a8512c;}
+    .tag-k{background:#17181a;color:#fff;border-color:#17181a;}
+    .nav{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:3px;font:500 12.5px/1 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .nav-on{background:#17181a;color:#fff;}
+    .ico{width:13px;height:13px;flex:none;border:1.2px solid currentColor;border-radius:2px;opacity:.5;}
+    .ico-on{background:currentColor;opacity:.9;}
+    .foot{font:400 9.5px/1.4 'IBM Plex Mono',ui-monospace,monospace;color:#7c7f85;}
+    .td{font:400 11.5px/1.4 'IBM Plex Sans',sans-serif;color:#4b4d52;}
+    .tdk{font:500 11.5px/1.35 'IBM Plex Sans',sans-serif;color:#17181a;}
+    .th{font:600 9px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:#6f7278;}
+    .r{display:grid;grid-template-columns:minmax(0,1.3fr) 78px 62px 54px 50px 116px minmax(0,1.1fr);gap:10px;align-items:center;}
+  </style>
+</helmet>
+
+<div style="display:flex;width:1440px;height:1240px;overflow:hidden;background:#f7f7f6;">
+
+  <aside style="width:236px;flex:none;background:#fff;border-right:1px solid #dcdde0;display:flex;flex-direction:column;">
+    <div style="padding:16px 14px 13px;border-bottom:1px solid #ececed;display:flex;align-items:center;gap:10px;">
+      <div style="width:34px;height:34px;flex:none;border:1px solid #dcdde0;border-radius:3px;background:#f2f2f3;display:grid;place-items:center;"><span class="cap">Logo</span></div>
+      <div style="display:flex;flex-direction:column;gap:4px;min-width:0;">
+        <div style="font:600 13.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;">Northline Fintech</div><span class="cap">Non-store · IN</span>
+      </div>
+    </div>
+    <nav style="display:flex;flex-direction:column;gap:2px;padding:11px 10px;">
+      <div class="cap" style="padding:6px 8px;">Monitor</div>
+      <div class="nav"><span class="ico"></span>Overview</div>
+      <div class="nav"><span class="ico"></span>Reviews Feed</div>
+      <div class="nav"><span class="ico"></span>Insights</div>
+      <div class="cap" style="padding:15px 8px 6px;display:flex;align-items:center;gap:6px;">Portfolio <span class="tag tag-c">Non-store</span></div>
+      <div class="nav nav-on"><span class="ico ico-on"></span>Product &amp; App</div>
+      <div class="nav"><span class="ico"></span>Channel Performance</div>
+      <div class="nav"><span class="ico"></span>Segments &amp; Cohorts</div>
+      <div class="nav"><span class="ico"></span>Journey Stages</div>
+      <div class="cap" style="padding:15px 8px 6px;">Experience</div>
+      <div class="nav"><span class="ico"></span>Onboarding &amp; Activation</div>
+      <div class="nav"><span class="ico"></span>Plans &amp; Billing</div>
+      <div class="nav"><span class="ico"></span>Support &amp; Resolution</div>
+      <div class="nav"><span class="ico"></span>Competitor &amp; Trust</div>
+      <div class="cap" style="padding:15px 8px 6px;">Operate</div>
+      <div class="nav"><span class="ico"></span>Actions &amp; Workflows</div>
+      <div class="nav"><span class="ico"></span>Reports</div>
+      <div class="cap" style="padding:15px 8px 6px;">Platform</div>
+      <div class="nav"><span class="ico"></span>Data Hub</div>
+    </nav>
+    <div style="margin-top:auto;padding:12px 14px;border-top:1px solid #ececed;display:flex;align-items:center;gap:9px;">
+      <div style="width:26px;height:26px;flex:none;border-radius:50%;background:#f2f2f3;border:1px solid #dcdde0;"></div>
+      <div style="display:flex;flex-direction:column;gap:4px;"><span style="font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;">J. Bhatt</span><span class="cap">Head of CX</span></div>
+    </div>
+  </aside>
+
+  <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+    <header style="height:54px;flex:none;background:#fff;border-bottom:1px solid #dcdde0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 22px;">
+      <div style="display:flex;align-items:center;gap:8px;font:400 12px/1 'IBM Plex Sans',sans-serif;color:#6f7278;">
+        <span>Northline Fintech</span><span>/</span><span style="color:#17181a;font-weight:600;">Product &amp; App</span>
+        <span class="tag tag-c" style="margin-left:6px;">Primary entity page for this tenant</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;">
+        <div class="chip"><span style="width:6px;height:6px;border-radius:50%;background:#17181a;"></span>Data fresh · 14 Sep, 06:00 IST</div>
+        <div class="btn">Save view</div><div class="btn btn-p">Export</div>
+      </div>
+    </header>
+
+    <div style="flex:1;overflow:hidden;padding:20px 22px 24px;display:flex;flex-direction:column;gap:13px;">
+
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;">
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <h1 style="margin:0;font:600 22px/1.1 'IBM Plex Sans',sans-serif;letter-spacing:-.02em;color:#17181a;">Product &amp; app portfolio</h1>
+          <span class="sub">Structurally the same page as Store Performance — a ranked entity league with spread, benchmark and drilldown. Only the entity differs.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;"><div class="chip">Last 90 days</div><div class="chip">Min 30 reviews</div><div class="chip">Benchmark · Portfolio median</div></div>
+      </div>
+
+      <div class="pnl" style="padding:10px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span class="cap" style="padding-right:4px;">Filters</span>
+        <div class="chip">Product · All (7)</div><div class="chip">App version · All</div><div class="chip">Platform · All</div>
+        <div class="chip">OS version · All</div><div class="chip">Plan · All</div><div class="chip">Source · 6 of 9</div>
+        <span class="foot" style="margin-left:auto;">21,408 records · 5 of 7 products meet the minimum</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px;">
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Products reporting</span><span class="num">5<span style="font-size:14px;color:#6f7278;"> / 7</span></span><span class="foot">2 below minimum n</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Portfolio avg</span><span class="num">3.86</span><span class="foot">−0.11 vs prev</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Spread p10–p90</span><span class="num">1.19</span><span class="foot">3.12 → 4.31</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Crash mention rate</span><span class="num">8.6%</span><span class="foot">of app-source records</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;border-color:#e3cbbd;background:#fdf9f7;"><span class="cap" style="color:#a8512c;">Release regression</span><span class="num">v7.0</span><span class="foot">flagged 22 May</span></div>
+        <div class="pnl" style="padding:12px 13px;display:flex;flex-direction:column;gap:5px;"><span class="cap">Feature requests</span><span class="num">1,214</span><span class="foot">clustered into 18 asks</span></div>
+      </div>
+
+      <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Product league table</span>
+            <span class="sub">Same columns as the store league — records, rating, delta, sentiment split, top negative theme.</span>
+          </div>
+          <div class="chip">Sort · Δ rating ascending</div>
+        </div>
+        <div class="r" style="padding-bottom:8px;border-bottom:1px solid #dcdde0;">
+          <span class="th">Product</span><span class="th">Platform</span><span class="th" style="text-align:right;">Records</span><span class="th" style="text-align:right;">Avg★</span><span class="th" style="text-align:right;">Δ</span><span class="th">Sentiment</span><span class="th">Top negative theme</span>
+        </div>
+        <div class="r" style="padding:9px 0;border-bottom:1px solid #ececed;">
+          <span class="tdk">Onboarding / KYC</span><span class="td">Android</span><span class="td" style="text-align:right;">4,208</span><span class="tdk" style="text-align:right;">3.12</span><span class="td" style="text-align:right;">−0.54</span>
+          <div style="display:flex;height:8px;"><div style="width:58%;background:#17181a;"></div><div style="width:12%;background:#c0c2c6;"></div><div style="width:30%;background:#e9eaeb;"></div></div>
+          <span class="td">Onboarding &amp; KYC friction</span>
+        </div>
+        <div class="r" style="padding:9px 0;border-bottom:1px solid #ececed;">
+          <span class="tdk">Payments</span><span class="td">Android</span><span class="td" style="text-align:right;">3,912</span><span class="tdk" style="text-align:right;">3.58</span><span class="td" style="text-align:right;">−0.33</span>
+          <div style="display:flex;height:8px;"><div style="width:44%;background:#17181a;"></div><div style="width:14%;background:#c0c2c6;"></div><div style="width:42%;background:#e9eaeb;"></div></div>
+          <span class="td">App stability</span>
+        </div>
+        <div class="r" style="padding:9px 0;border-bottom:1px solid #ececed;">
+          <span class="tdk">Plus plan</span><span class="td">All</span><span class="td" style="text-align:right;">2,104</span><span class="tdk" style="text-align:right;">3.71</span><span class="td" style="text-align:right;">−0.22</span>
+          <div style="display:flex;height:8px;"><div style="width:38%;background:#17181a;"></div><div style="width:16%;background:#c0c2c6;"></div><div style="width:46%;background:#e9eaeb;"></div></div>
+          <span class="td">Pricing &amp; value</span>
+        </div>
+        <div class="r" style="padding:9px 0;border-bottom:1px solid #ececed;">
+          <span class="tdk">Rewards</span><span class="td">Android</span><span class="td" style="text-align:right;">1,886</span><span class="tdk" style="text-align:right;">4.08</span><span class="td" style="text-align:right;">+0.12</span>
+          <div style="display:flex;height:8px;"><div style="width:22%;background:#17181a;"></div><div style="width:13%;background:#c0c2c6;"></div><div style="width:65%;background:#e9eaeb;"></div></div>
+          <span class="td">Redemption clarity</span>
+        </div>
+        <div class="r" style="padding:9px 0;border-bottom:1px solid #ececed;">
+          <span class="tdk">Card controls</span><span class="td">iOS</span><span class="td" style="text-align:right;">1,442</span><span class="tdk" style="text-align:right;">4.22</span><span class="td" style="text-align:right;">+0.17</span>
+          <div style="display:flex;height:8px;"><div style="width:16%;background:#17181a;"></div><div style="width:11%;background:#c0c2c6;"></div><div style="width:73%;background:#e9eaeb;"></div></div>
+          <span class="td">Feature gaps</span>
+        </div>
+        <div class="r" style="padding:9px 0;">
+          <span class="td" style="color:#6f7278;">Wealth — below minimum n</span><span class="td">iOS</span><span class="td" style="text-align:right;">18</span><span class="td" style="text-align:right;color:#6f7278;">n/a</span><span class="td" style="text-align:right;color:#6f7278;">—</span>
+          <div style="height:8px;background:#f2f2f3;"></div><span class="td" style="color:#6f7278;">Not shown — n too small</span>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,0.85fr);gap:13px;">
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Rating against release timeline</span>
+            <span class="sub">Release markers replace store events. The v7.0 regression is visible without any additional instrumentation.</span>
+          </div>
+          <svg viewBox="0 0 520 200" width="100%" height="200">
+            <g stroke="#ececed"><line x1="36" y1="30" x2="506" y2="30"/><line x1="36" y1="70" x2="506" y2="70"/><line x1="36" y1="110" x2="506" y2="110"/><line x1="36" y1="150" x2="506" y2="150"/></g>
+            <g fill="#7c7f85" font-family="'IBM Plex Mono',monospace" font-size="8">
+              <text x="4" y="33">4.4</text><text x="4" y="73">4.0</text><text x="4" y="113">3.6</text><text x="4" y="153">3.2</text>
+            </g>
+            <line x1="270" y1="20" x2="270" y2="150" stroke="#a8512c" stroke-dasharray="3 3"/>
+            <text x="274" y="28" fill="#a8512c" font-family="'IBM Plex Sans',sans-serif" font-size="9">v7.0</text>
+            <line x1="378" y1="20" x2="378" y2="150" stroke="#c0c2c6" stroke-dasharray="3 3"/>
+            <text x="382" y="28" fill="#6f7278" font-family="'IBM Plex Sans',sans-serif" font-size="9">v7.2</text>
+            <line x1="462" y1="20" x2="462" y2="150" stroke="#c0c2c6" stroke-dasharray="3 3"/>
+            <text x="424" y="28" fill="#6f7278" font-family="'IBM Plex Sans',sans-serif" font-size="9">v7.4</text>
+            <polyline points="48,62 90,58 132,64 174,60 216,66 258,62 300,104 342,118 384,108 426,112 468,122 502,128" fill="none" stroke="#17181a" stroke-width="1.7"/>
+            <g fill="#fff" stroke="#17181a" stroke-width="1.4">
+              <circle cx="258" cy="62" r="2.8"/><circle cx="300" cy="104" r="2.8"/><circle cx="468" cy="122" r="2.8"/>
+            </g>
+            <line x1="36" y1="150" x2="506" y2="150" stroke="#dcdde0"/>
+            <g fill="#6f7278" font-family="'IBM Plex Mono',monospace" font-size="8" text-anchor="middle">
+              <text x="48" y="166">Oct</text><text x="132" y="166">Dec</text><text x="216" y="166">Feb</text><text x="300" y="166">Apr</text><text x="384" y="166">Jun</text><text x="468" y="166">Aug</text>
+            </g>
+            <text x="36" y="190" fill="#7c7f85" font-family="'IBM Plex Mono',monospace" font-size="9">Monthly avg rating, Onboarding / KYC · n per point ≥ 240</text>
+          </svg>
+          <div style="margin-top:auto;padding-top:11px;border-top:1px solid #ececed;">
+            <span class="foot">Rating has not recovered across three subsequent releases — the regression is behavioural, not a one-off build defect.</span>
+          </div>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Defect clusters</span>
+            <span class="sub">Grouped from review text, split by platform and OS.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tdk">Crash on document upload</span><span class="tag tag-k" style="margin-left:auto;">Critical</span></div>
+              <span class="sub">Android 13 only · 91% mention the KYC step</span>
+              <span class="foot">842 mentions · conf. high</span>
+            </div>
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tdk">Session expiry mid-payment</span><span class="tag" style="margin-left:auto;">High</span></div>
+              <span class="sub">Both platforms · rises with session length</span>
+              <span class="foot">446 mentions · conf. high</span>
+            </div>
+            <div style="border:1px solid #dcdde0;border-radius:3px;padding:10px 11px;display:flex;flex-direction:column;gap:6px;">
+              <div style="display:flex;align-items:center;gap:7px;"><span class="tdk">OTP not received</span><span class="tag" style="margin-left:auto;">Medium</span></div>
+              <span class="sub">Concentrated in two telecom circles</span>
+              <span class="foot">288 mentions · conf. medium</span>
+            </div>
+          </div>
+          <div style="margin-top:auto;display:flex;flex-direction:column;gap:7px;border-top:1px solid #ececed;padding-top:11px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span class="td">Android share of defects</span><span class="tdk">81%</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;"><span class="td">Android share of reviews</span><span class="tdk">62%</span></div>
+            <span class="foot">Over-indexed 1.3× — worth a platform-specific action.</span>
+          </div>
+        </div>
+
+        <div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:11px;overflow:hidden;">
+          <div style="display:flex;flex-direction:column;gap:4px;">
+            <span class="h">Top feature requests</span>
+            <span class="sub">Clustered asks from positive and neutral reviews.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Joint accounts</span><span class="td">284</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:84%;background:#17181a;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Spending categories</span><span class="td">212</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:63%;background:#4b4d52;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Offline mode</span><span class="td">166</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:49%;background:#83868c;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Wear OS app</span><span class="td">104</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:31%;background:#a5a8ad;"></div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><span class="tdk">Regional language UI</span><span class="td">88</span></div>
+              <div style="height:7px;background:#f2f2f3;"><div style="height:7px;width:26%;background:#c0c2c6;"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:auto;padding-top:11px;border-top:1px solid #ececed;">
+            <span class="foot">Request volume is not demand. It measures who bothered to write it down.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {}
+</script>
+</body>
+</html>
