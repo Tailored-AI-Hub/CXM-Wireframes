@@ -29,6 +29,8 @@ const PAGES = [
   ["ns-actions", "NsActions.dc.html"],
   ["ns-reports", "NsReports.dc.html"],
   ["ns-data", "NsDataHub.dc.html"],
+  ["ns-onboarding", "NsOnboarding.dc.html"],
+  ["ns-billing", "NsBilling.dc.html"],
 ];
 
 // Selectors that are identical in every file — emit once, globally.

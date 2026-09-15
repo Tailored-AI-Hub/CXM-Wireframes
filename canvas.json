@@ -38,7 +38,10 @@
 
     { "file": "NsActions.dc.html", "page": "page-2", "x": 0, "y": 4200, "w": 1440, "h": 1240, "title": "N10 · Actions & workflows" },
     { "file": "NsReports.dc.html", "page": "page-2", "x": 1560, "y": 4200, "w": 1440, "h": 1240, "title": "N11 · Reports" },
-    { "file": "NsDataHub.dc.html", "page": "page-2", "x": 3120, "y": 4200, "w": 1440, "h": 1240, "title": "N12 · Data hub & source coverage" }
+    { "file": "NsDataHub.dc.html", "page": "page-2", "x": 3120, "y": 4200, "w": 1440, "h": 1240, "title": "N12 · Data hub & source coverage" },
+
+    { "file": "NsOnboarding.dc.html", "page": "page-2", "x": 0, "y": 5600, "w": 1440, "h": 1240, "title": "N13 · Onboarding & activation" },
+    { "file": "NsBilling.dc.html", "page": "page-2", "x": 1560, "y": 5600, "w": 1440, "h": 1240, "title": "N14 · Plans & billing" }
   ],
   "annotations": [
     {

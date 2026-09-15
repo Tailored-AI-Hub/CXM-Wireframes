@@ -822,10 +822,26 @@
     toast("Filters reset");
   }
 
+  /* Links inside the page copy name a page generically ("Open Data Hub"), but
+     each tenant holds its own instance of the common pages — data vs ns-data.
+     Resolve the generic name against the tenant's own page set before routing,
+     otherwise a correct link lands on a 404. */
+  function resolveRoute(page) {
+    var t = TENANTS[state.tenant];
+    if (!t) return page;
+    var allowed = {};
+    t.groups.forEach(function (g) { g.items.forEach(function (it) { allowed[it[0]] = 1; }); });
+    if (allowed[page]) return page;
+    if (allowed["ns-" + page]) return "ns-" + page;
+    var bare = page.replace(/^ns-/, "");
+    if (allowed[bare]) return bare;
+    return page;
+  }
+
   function navigate(page) {
     if (!page) return;
     document.getElementById("sidewrap").classList.remove("open");
-    location.hash = "#/" + state.tenant + "/" + page;
+    location.hash = "#/" + state.tenant + "/" + resolveRoute(page);
   }
 
   /* ============ router ============ */
