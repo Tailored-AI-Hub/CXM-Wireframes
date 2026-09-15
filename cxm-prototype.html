@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Review Intelligence Console</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
@@ -43,10 +48,11 @@
   .nav{width:100%;border:0;background:transparent;cursor:pointer;color:#3f5566;font:500 12.5px/1.3 'IBM Plex Sans',sans-serif;text-align:left;}
   .nav:hover{background:#eef3f7;}
   .nav-on,.nav-on:hover{background:#0f2233;color:#fff;}
-  /* Square icon placeholders read as unchecked checkboxes once the page is
-     clickable, so the nav uses a round marker instead. */
-  #nav .ico{border-radius:50%;width:9px;height:9px;}
-  .nav-on .ico{background:currentColor;opacity:.95;}
+  /* Nav icons are drawn inline so they inherit currentColor and invert
+     cleanly on the active pill. */
+  .nav svg{width:16px;height:16px;flex:none;opacity:.7;}
+  .nav:hover svg{opacity:.9;}
+  .nav-on svg,.nav-on:hover svg{opacity:1;}
   [data-signout]{white-space:nowrap;}
 
   /* ---------- collapsible sidebar ---------- */
@@ -101,6 +107,8 @@
   .empty h2{margin:0;font:600 18px/1.2 'IBM Plex Sans',sans-serif;color:#0f2233;letter-spacing:-.015em;}
   .empty p{margin:0;font:400 13px/1.55 'IBM Plex Sans',sans-serif;color:#3f5566;max-width:58ch;}
 </style>
+</head>
+<body>
 
 <div id="login"></div>
 <div id="app" class="hidden"></div>
@@ -162,6 +170,39 @@ window.PAGE_HTML = {"overview":"<div style=\"display:flex;align-items:flex-end;j
     "ns-data": ["Run now","Add source"], "ns-actions": ["Routing rules","New action"],
     "ns-reports": ["Template editor","New report"], "ns-competition": ["Manage competitor list","Export"]
   };
+
+  /* ============ nav icons ============
+     One stroke-based set on a 24px grid, 1.7 weight, round joins — drawn
+     rather than pulled from a font so they inherit currentColor and stay
+     legible at the 16px the rail renders them at. */
+  var ICON_PATHS = {
+    overview: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>',
+    reviews: '<path d="M4 5h16v11H9l-5 4V5Z"/><path d="M8 9h8M8 12.5h5"/>',
+    insights: '<path d="M9.5 18h5M10.2 21h3.6"/><path d="M12 3a6 6 0 0 0-3.5 10.9V15h7v-1.1A6 6 0 0 0 12 3Z"/>',
+    stores: '<path d="M4 9h16v11H4z"/><path d="M3 9l1.6-5h14.8L21 9"/><path d="M9 20v-6h6v6"/>',
+    geography: '<path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/>',
+    productservice: '<path d="M3 12.6V4h8.6l9 9-8.6 8.6-9-9Z"/><circle cx="7.4" cy="7.4" r="1.3"/>',
+    staff: '<circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/>',
+    fulfilment: '<path d="M2.5 6h10.5v10H2.5z"/><path d="M13 9h4.5l3.5 3.5V16H13z"/><circle cx="6.5" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+    support: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M6 6l3.6 3.6M18 6l-3.6 3.6M6 18l3.6-3.6M18 18l-3.6-3.6"/>',
+    competition: '<path d="M12 3l7 3v6c0 4.4-3 7.7-7 9-4-1.3-7-4.6-7-9V6l7-3Z"/><path d="M9.2 12.2l2 2 3.6-3.8"/>',
+    actions: '<path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.6 5.6L5 7l2.4-2.6M3.6 11.6L5 13l2.4-2.6"/><circle cx="5" cy="18" r="1.3"/>',
+    reports: '<path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 13h6M9 16.5h4"/>',
+    data: '<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',
+    products: '<rect x="3.5" y="3.5" width="11" height="11" rx="2"/><path d="M9 20.5h9.5a2 2 0 0 0 2-2V9"/>',
+    channels: '<circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="18" cy="18" r="2.6"/><path d="M8.3 10.8l7.4-3.6M8.3 13.2l7.4 3.6"/>',
+    segments: '<circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v8.5h8.5"/>',
+    journey: '<circle cx="5" cy="19" r="2.2"/><circle cx="19" cy="5" r="2.2"/><path d="M5 16.8V11a3 3 0 0 1 3-3h8a3 3 0 0 0 3-3"/>',
+    onboarding: '<circle cx="10" cy="8" r="3.4"/><path d="M4 20a6 6 0 0 1 12 0"/><path d="M19 8.5v5M16.5 11h5"/>',
+    billing: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/>'
+  };
+
+  function icon(page) {
+    var key = page.replace(/^ns-/, "");
+    var d = ICON_PATHS[key] || ICON_PATHS.overview;
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+      'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + '</svg>';
+  }
 
   /* Pages that exist only for one company type — used for the 404 demo. */
   var STORE_ONLY = { stores:1, geography:1, staff:1 };
@@ -350,7 +391,7 @@ window.PAGE_HTML = {"overview":"<div style=\"display:flex;align-items:flex-end;j
               (g.flag ? '<span class="tag tag-c side-label">' + esc(g.flag) + '</span>' : "") + '</div>' +
               g.items.map(function (it) {
                 return '<button type="button" class="nav" data-go="' + it[0] + '" title="' + esc(it[1]) + '" style="display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:3px;">' +
-                  '<span class="ico"></span><span class="side-label">' + esc(it[1]) + '</span></button>';
+                  '' + icon(it[0]) + '<span class="side-label">' + esc(it[1]) + '</span></button>';
               }).join("");
           }).join("") +
         '</nav>' +
@@ -801,3 +842,6 @@ window.PAGE_HTML = {"overview":"<div style=\"display:flex;align-items:flex-end;j
   route();
 })();
 </script>
+
+</body>
+</html>
