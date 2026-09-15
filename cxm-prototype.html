@@ -54,9 +54,19 @@
     transition:background .12s ease, border-color .12s ease;
   }
   .wsel:hover{background:#f2f5f8;border-color:#dde5ec;}
-  .wsel[aria-pressed="true"]{background:#0d1b2a;border-color:#0d1b2a;}
-  .wsel[aria-pressed="true"] .tdk,.wsel[aria-pressed="true"] .td{color:#fff;}
-  .wsel[aria-pressed="true"] .tag{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff;}
+  .wsel-mark{
+    width:30px;height:30px;flex:none;border:1px solid #dde5ec;border-radius:8px;
+    background:linear-gradient(180deg,#fff,#f2f5f8);display:grid;place-items:center;
+    font:600 9.5px/1 'Spline Sans Mono',ui-monospace,monospace;letter-spacing:.06em;color:#5b7189;
+  }
+  .wsel-tick{display:none;color:#fff;flex:none;}
+  .wsel[aria-checked="true"] .wsel-tick{display:block;}
+  .wsel[aria-checked="true"] .wsel-mark{
+    border-color:rgba(255,255,255,.26);background:rgba(255,255,255,.12);color:#fff;
+  }
+  .wsel[aria-checked="true"]{background:#0d1b2a;border-color:#0d1b2a;}
+  .wsel[aria-checked="true"] .tdk,.wsel[aria-checked="true"] .td{color:#fff;}
+  .wsel[aria-checked="true"] .tag{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff;}
   .bigbtn{
     display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
     min-height:46px;border:1px solid #dde5ec;background:#fff;border-radius:8px;cursor:pointer;
@@ -436,12 +446,18 @@ window.PAGE_HTML = {"overview":"<div style=\"display:flex;align-items:flex-end;j
           '</div>' +
           '<div style="display:flex;flex-direction:column;gap:8px;">' +
             '<div style="display:flex;align-items:center;justify-content:space-between;"><span class="lbl">Step 1 — Company / workspace</span><span class="tag tag-c">Tenant boundary</span></div>' +
-            '<div class="pnl" style="padding:5px;display:flex;flex-direction:column;" role="group" aria-label="Choose a workspace">' +
+            '<div class="pnl" style="padding:5px;display:flex;flex-direction:column;" role="radiogroup" aria-label="Choose a workspace">' +
               rows.map(function (r) {
                 var on = picked === r[0];
-                return '<button type="button" class="wsel" data-pick="' + r[0] + '" aria-pressed="' + on + '">' +
-                  '<span style="width:24px;height:24px;flex:none;border:1px solid ' + (on ? "rgba(255,255,255,.3)" : "#dde5ec") + ';border-radius:2px;background:' + (on ? "rgba(255,255,255,.12)" : "#fff") + ';"></span>' +
-                  '<span class="tdk" style="flex:1;">' + esc(r[1]) + '</span><span class="tag">' + esc(r[2]) + '</span></button>';
+                var t = TENANTS[r[0]];
+                return '<button type="button" class="wsel" data-pick="' + r[0] + '" role="radio" aria-checked="' + on + '">' +
+                  '<span class="wsel-mark">' + esc(t.initials) + '</span>' +
+                  '<span class="tdk" style="flex:1;">' + esc(r[1]) + '</span>' +
+                  '<span class="tag">' + esc(r[2]) + '</span>' +
+                  '<span class="wsel-tick" aria-hidden="true">' +
+                    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+                    'stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>' +
+                  '</span></button>';
               }).join("") +
               '<div style="padding:8px 10px;border-top:1px solid #eaeff4;"><span class="foot">Only workspaces your identity is provisioned for are listed</span></div>' +
             '</div>' +
@@ -449,7 +465,10 @@ window.PAGE_HTML = {"overview":"<div style=\"display:flex;align-items:flex-end;j
           '<div style="display:flex;flex-direction:column;gap:9px;">' +
             '<span class="lbl">Step 2 — Sign in</span>' +
             '<button type="button" class="bigbtn" style="justify-content:flex-start;padding:0 14px;gap:10px;" data-sso="1"' + (picked ? "" : " disabled") + '>' +
-              '<span style="width:17px;height:17px;border:1.3px solid #5b7189;border-radius:3px;"></span>' +
+              '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" ' +
+                'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;opacity:.7;">' +
+                '<path d="M12 3l7 3v5.5c0 4.2-2.9 7.4-7 8.5-4.1-1.1-7-4.3-7-8.5V6l7-3Z"/>' +
+                '<path d="M12 11.2v2.4M12 9.4a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Z"/></svg>' +
               'Continue with ' + esc(picked ? TENANTS[picked].name : "company") + ' SSO (SAML)</button>' +
             '<div style="display:flex;align-items:center;gap:12px;"><div style="flex:1;height:1px;background:#eaeff4;"></div><span class="foot">or</span><div style="flex:1;height:1px;background:#eaeff4;"></div></div>' +
             '<label class="fld"><span class="fld-ph" style="flex:none;">Work email</span><input id="email" type="email" value="' + esc(userEmail()) + '" style="flex:1;border:0;outline:0;font:inherit;color:#0d1b2a;background:transparent;min-width:0;"></label>' +
