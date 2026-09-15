@@ -21,6 +21,14 @@ const PAGES = [
   ["ns-channels", "Channels.dc.html"],
   ["ns-segments", "Segments.dc.html"],
   ["ns-journey", "Journey.dc.html"],
+  // Pages common in STRUCTURE but not in content: each tenant needs its own.
+  ["ns-reviews", "NsReviewsFeed.dc.html"],
+  ["ns-insights", "NsInsights.dc.html"],
+  ["ns-support", "NsSupport.dc.html"],
+  ["ns-competition", "NsCompetitor.dc.html"],
+  ["ns-actions", "NsActions.dc.html"],
+  ["ns-reports", "NsReports.dc.html"],
+  ["ns-data", "NsDataHub.dc.html"],
 ];
 
 // Selectors that are identical in every file — emit once, globally.

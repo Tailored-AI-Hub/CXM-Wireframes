@@ -24,12 +24,21 @@
 
     { "file": "DataHub.dc.html", "page": "page-1", "x": 0, "y": 6680, "w": 1440, "h": 1240, "title": "14 · Data hub & source coverage" },
 
-    { "file": "OverviewNonStore.dc.html", "page": "page-2", "x": 0, "y": 0, "w": 1440, "h": 1240, "title": "N1 · Overview — non-store tenant" },
-    { "file": "ProductApp.dc.html", "page": "page-2", "x": 1560, "y": 0, "w": 1440, "h": 1240, "title": "N2 · Product & app portfolio" },
+    { "file": "OverviewNonStore.dc.html", "page": "page-2", "x": 0, "y": 0, "w": 1440, "h": 1240, "title": "N1 · Overview" },
+    { "file": "NsReviewsFeed.dc.html", "page": "page-2", "x": 1560, "y": 0, "w": 1440, "h": 1240, "title": "N2 · Reviews feed & evidence explorer" },
+    { "file": "NsInsights.dc.html", "page": "page-2", "x": 3120, "y": 0, "w": 1440, "h": 1240, "title": "N3 · Insights" },
 
-    { "file": "Channels.dc.html", "page": "page-2", "x": 0, "y": 1400, "w": 1440, "h": 1240, "title": "N3 · Channel performance" },
-    { "file": "Segments.dc.html", "page": "page-2", "x": 1560, "y": 1400, "w": 1440, "h": 1240, "title": "N4 · Segments & cohorts" },
-    { "file": "Journey.dc.html", "page": "page-2", "x": 3120, "y": 1400, "w": 1440, "h": 1240, "title": "N5 · Journey stages" }
+    { "file": "ProductApp.dc.html", "page": "page-2", "x": 0, "y": 1400, "w": 1440, "h": 1240, "title": "N4 · Product & app portfolio" },
+    { "file": "Channels.dc.html", "page": "page-2", "x": 1560, "y": 1400, "w": 1440, "h": 1240, "title": "N5 · Channel performance" },
+    { "file": "Segments.dc.html", "page": "page-2", "x": 3120, "y": 1400, "w": 1440, "h": 1240, "title": "N6 · Segments & cohorts" },
+
+    { "file": "Journey.dc.html", "page": "page-2", "x": 0, "y": 2800, "w": 1440, "h": 1240, "title": "N7 · Journey stages" },
+    { "file": "NsSupport.dc.html", "page": "page-2", "x": 1560, "y": 2800, "w": 1440, "h": 1240, "title": "N8 · Support & resolution" },
+    { "file": "NsCompetitor.dc.html", "page": "page-2", "x": 3120, "y": 2800, "w": 1440, "h": 1240, "title": "N9 · Competitor & brand trust" },
+
+    { "file": "NsActions.dc.html", "page": "page-2", "x": 0, "y": 4200, "w": 1440, "h": 1240, "title": "N10 · Actions & workflows" },
+    { "file": "NsReports.dc.html", "page": "page-2", "x": 1560, "y": 4200, "w": 1440, "h": 1240, "title": "N11 · Reports" },
+    { "file": "NsDataHub.dc.html", "page": "page-2", "x": 3120, "y": 4200, "w": 1440, "h": 1240, "title": "N12 · Data hub & source coverage" }
   ],
   "annotations": [
     {
@@ -105,12 +114,36 @@
       "text": "THE SWAP\n\nCompare N1 against 02 on the previous page: same layout, same modules, same query shapes.\n\nOnly the entity dimension changes — store / city / region becomes product / channel / plan / segment. Hidden pages 404; they are never shown empty."
     },
     {
+      "id": "common-not-shared",
+      "page": "page-2",
+      "x": -420,
+      "y": 340,
+      "w": 340,
+      "text": "COMMON IN STRUCTURE, NOT IN CONTENT\n\nN2 and N3 are the same pages as 03 and 04 — same layout, same facet rail, same insight envelope.\n\nBut a tenant cannot borrow another tenant's rows. The facets here read product, app version and platform; the evidence is app-store and forum text; the insight is a crash on Android, not a queue in a mall.\n\nOne page definition, one instance of it per tenant."
+    },
+    {
       "id": "portfolio-note",
       "page": "page-2",
       "x": -420,
       "y": 1400,
       "w": 340,
       "text": "PORTFOLIO SET\n\nThese four replace the Network group. Each is the structural twin of a store page:\n\nProduct & App ↔ Store Performance\nChannel Performance ↔ City & Region\nSegments & Cohorts ↔ store clusters\nJourney Stages ↔ no store equivalent — it is the one genuinely new page.\n\nSegments depends on a CRM join, so it states its denominator prominently: 36% of records carry no customer identity at all."
+    },
+    {
+      "id": "ns-operate-note",
+      "page": "page-2",
+      "x": -420,
+      "y": 2800,
+      "w": 340,
+      "text": "EXPERIENCE & OPERATE\n\nSupport, Competitor, Actions and Reports exist for both tenant types, and the mechanism is identical — SLAs, escalation rules, a verification watch, a provenance block on every report.\n\nWhat differs is what a rule can reference. The routing editor here offers product, channel, plan and journey stage; it cannot offer store or region, because this tenant declares neither."
+    },
+    {
+      "id": "ns-data-note",
+      "page": "page-2",
+      "x": -420,
+      "y": 4200,
+      "w": 340,
+      "text": "WHY THERE ARE NO STORE PAGES\n\nN12 is the answer, and it is a data property rather than a setting: no connected source carries a location.\n\nA store-based tenant's Google Maps connector is what makes store and geography analytics possible. Take it away and those pages could not be honest, so the framework does not offer them."
     }
   ],
   "launch": { "view": "canvas", "page": "page-1" }

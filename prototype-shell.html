@@ -105,11 +105,11 @@
       name: "Paytm", type: "NON_STORE", typeLabel: "Non-store · IN · sample data",
       user: "J. Bhatt", role: "Head of CX", initials: "PT",
       groups: [
-        { label: "Monitor", items: [["ns-overview","Overview"],["reviews","Reviews Feed"],["insights","Insights"]] },
+        { label: "Monitor", items: [["ns-overview","Overview"],["ns-reviews","Reviews Feed"],["ns-insights","Insights"]] },
         { label: "Portfolio", flag: "Non-store", items: [["ns-products","Product & App"],["ns-channels","Channel Performance"],["ns-segments","Segments & Cohorts"],["ns-journey","Journey Stages"]] },
-        { label: "Experience", items: [["ns-onboarding","Onboarding & Activation"],["ns-billing","Plans & Billing"],["support","Support & Resolution"],["competition","Competitor & Trust"]] },
-        { label: "Operate", items: [["actions","Actions & Workflows"],["reports","Reports"]] },
-        { label: "Platform", items: [["data","Data Hub"]] }
+        { label: "Experience", items: [["ns-onboarding","Onboarding & Activation"],["ns-billing","Plans & Billing"],["ns-support","Support & Resolution"],["ns-competition","Competitor & Trust"]] },
+        { label: "Operate", items: [["ns-actions","Actions & Workflows"],["ns-reports","Reports"]] },
+        { label: "Platform", items: [["ns-data","Data Hub"]] }
       ]
     }
   };
@@ -120,7 +120,10 @@
     staff:"Staff & Service Quality", fulfilment:"Delivery & Fulfilment", support:"Support & Resolution",
     competition:"Competitor & Trust", actions:"Actions & Workflows", reports:"Reports", data:"Data Hub",
     "ns-products":"Product & App", "ns-channels":"Channel Performance", "ns-segments":"Segments & Cohorts",
-    "ns-journey":"Journey Stages", "ns-onboarding":"Onboarding & Activation", "ns-billing":"Plans & Billing"
+    "ns-journey":"Journey Stages", "ns-onboarding":"Onboarding & Activation", "ns-billing":"Plans & Billing",
+    "ns-reviews":"Reviews Feed", "ns-insights":"Insights", "ns-support":"Support & Resolution",
+    "ns-competition":"Competitor & Trust", "ns-actions":"Actions & Workflows", "ns-reports":"Reports",
+    "ns-data":"Data Hub"
   };
 
   /* Header actions per page. */
@@ -128,7 +131,10 @@
     reviews: ["Save view","Export"], insights: ["Subscribe","Export"],
     data: ["Run now","Add source"], actions: ["Routing rules","New action"],
     reports: ["Template editor","New report"], competition: ["Manage competitor list","Export"],
-    "ns-journey": ["Stage model","Export"]
+    "ns-journey": ["Stage model","Export"],
+    "ns-reviews": ["Save view","Export"], "ns-insights": ["Subscribe","Export"],
+    "ns-data": ["Run now","Add source"], "ns-actions": ["Routing rules","New action"],
+    "ns-reports": ["Template editor","New report"], "ns-competition": ["Manage competitor list","Export"]
   };
 
   /* Pages that exist only for one company type — used for the 404 demo. */
@@ -150,6 +156,11 @@
   var el = { login: document.getElementById("login"), app: document.getElementById("app"), toast: document.getElementById("toast") };
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" })[c]; }); }
+
+  /* Each tenant has its own instance of the common pages, so the interactive
+     behaviours key on the page's role rather than on one exact route. */
+  function isFeed() { return state.page === "reviews" || state.page === "ns-reviews"; }
+  function isInsights() { return state.page === "insights" || state.page === "ns-insights"; }
   /* Browser storage can throw (private window, blocked site data) and is only
      used for a dismissible hint, so failing silently is the correct behaviour. */
   function store(k, v) {
@@ -447,8 +458,8 @@
        filter real rows rather than pretending to. */
     /* The feed's facets arrive pre-selected in the wireframe, so apply them
        once on load — the controls and the visible rows must agree. */
-    if (state.page === "reviews") { indexReviews(root); applyReviewFilters(root); }
-    if (state.page === "insights") indexInsights(root);
+    if (isFeed()) { indexReviews(root); applyReviewFilters(root); }
+    if (isInsights()) indexInsights(root);
   }
 
   /* Data rows that follow a header: either the header's later siblings, or the
@@ -643,7 +654,7 @@
       var sibs = tab.parentElement.querySelectorAll(".tab");
       for (var i = 0; i < sibs.length; i++) sibs[i].classList.remove("tab-on");
       tab.classList.add("tab-on");
-      if (state.page === "insights") applyInsightTab(view, tab.textContent || "");
+      if (isInsights()) applyInsightTab(view, tab.textContent || "");
       return;
     }
 
@@ -651,14 +662,14 @@
     if (facet) {
       var box = facet.querySelector(".box");
       if (box) box.classList.toggle("box-on");
-      if (state.page === "reviews") applyReviewFilters(view);
+      if (isFeed()) applyReviewFilters(view);
       return;
     }
 
     var star = e.target.closest("[data-star]");
     if (star) {
       star.classList.toggle("tag-k");
-      if (state.page === "reviews") applyReviewFilters(view);
+      if (isFeed()) applyReviewFilters(view);
       return;
     }
 
@@ -693,7 +704,7 @@
   function resetFilters(view) {
     var on = view.querySelectorAll(".chip-on");
     for (var i = 0; i < on.length; i++) on[i].classList.remove("chip-on");
-    if (state.page === "reviews") {
+    if (isFeed()) {
       var boxes = view.querySelectorAll(".facet .box-on");
       for (var j = 0; j < boxes.length; j++) boxes[j].classList.remove("box-on");
       var stars = view.querySelectorAll("[data-star]");
