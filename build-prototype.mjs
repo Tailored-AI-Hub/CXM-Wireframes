@@ -54,35 +54,44 @@ const SHARED = new Set([
    warm against a cool ground is what makes those elements findable.
 --------------------------------------------------------------------------- */
 const THEME = {
-  "#17181a": "#0f2233", // ink, dark fills, active nav, primary button
-  "#2f3135": "#22384c",
-  "#4b4d52": "#3f5566", // body text
-  "#5a5d63": "#4d6376",
-  "#6f7278": "#61788b", // muted
-  "#7c7f85": "#6f8598", // footnotes
-  "#83868c": "#768c9f",
-  "#8a8d93": "#7d93a5", // placeholder text
-  "#9a9da2": "#8ea2b2",
-  "#a5a8ad": "#9aacbb",
-  "#b0b3b8": "#a5b6c3",
-  "#b7b9bd": "#adbcc8",
-  "#c0c2c6": "#b6c4d0",
-  "#c9cbcf": "#c0ccd7",
-  "#d2d4d7": "#cad5de",
-  "#dcdde0": "#d4dee6", // borders
-  "#e1e2e4": "#dae3ea",
-  "#e2e3e5": "#dbe4ea",
-  "#e9eaeb": "#e3eaef",
-  "#eaeaec": "#e4ebf0",
-  "#eceded": "#e7edf2",
-  "#ececed": "#e7edf2", // hairlines
-  "#eeeff0": "#e9eff3",
-  "#f0f0f1": "#ebf0f4",
-  "#f0f1f1": "#ebf0f4",
-  "#f2f2f3": "#eef3f7", // fills
-  "#f4f4f5": "#f1f5f8",
-  "#f7f7f6": "#f4f8fb", // page ground
-  "#fafafa": "#f8fbfd",
+  // neutral ramp -> cool, slightly blue so white cards read crisp against it
+  "#17181a": "#0d1b2a", // ink, dark fills, active nav, primary button
+  "#2f3135": "#17293d",
+  "#4b4d52": "#33475b", // body text
+  "#5a5d63": "#41566c",
+  "#6f7278": "#5b7189", // muted
+  "#7c7f85": "#6b8199", // footnotes
+  "#83868c": "#7d93a8",
+  "#8a8d93": "#8ba0b4", // placeholder text
+  "#9a9da2": "#9db0c2",
+  "#a5a8ad": "#aec0d0",
+  "#b0b3b8": "#bccbd9",
+  "#b7b9bd": "#c2cfdb",
+  "#c0c2c6": "#c8d5e0",
+  "#c9cbcf": "#d3dee7",
+  "#d2d4d7": "#d8e2ea",
+  "#dcdde0": "#dde5ec", // borders
+  "#e1e2e4": "#e3eaf0",
+  "#e2e3e5": "#e4ebf1",
+  "#e9eaeb": "#e8eef3",
+  "#eaeaec": "#e9eff4",
+  "#eceded": "#eaeff4",
+  "#ececed": "#eaeff4", // hairlines
+  "#eeeff0": "#edf1f5",
+  "#f0f0f1": "#eff3f7",
+  "#f0f1f1": "#eff3f7",
+  "#f2f2f3": "#f2f5f8", // fills
+  "#f4f4f5": "#f5f8fa",
+  "#f7f7f6": "#f6f8fa", // page ground
+  "#fafafa": "#f9fbfc",
+  // accent -> kept warm against the cool ground, slightly deepened
+  "#a8512c": "#b0562e",
+  "#8a4023": "#8f4423",
+  "#f7ede7": "#fbf0ea",
+  "#e3cbbd": "#ecd4c6",
+  "#fdf9f7": "#fdf7f4",
+  "#f0e6e0": "#f2e3da",
+  "#b48065": "#a96f4f",
 };
 
 function applyTheme(css) {
@@ -130,6 +139,33 @@ function applyType(s) {
     // Family names elsewhere — quote-agnostic, so both forms are covered.
     .replaceAll("IBM Plex Sans", "Instrument Sans")
     .replaceAll("IBM Plex Mono", "Spline Sans Mono");
+}
+
+/* ---------------------------------------------------------------------------
+   Status badges carry their meaning in a word only. This reads that word and
+   adds a semantic class, so severity is visible before it is read — which is
+   what makes a dense board scannable. Purely additive: the text is untouched.
+--------------------------------------------------------------------------- */
+const BADGE_STATE = [
+  [/^(critical|blocking|retire|breaching|overdue|stale source|auth)$/i, "tag-crit"],
+  [/^(watch|warning|high|pending|partial|stale|draft|no change|watching|rate limit)$/i, "tag-warn"],
+  [/^(verified|effective|healthy|ok|delivered|improving|keep|low|resolved)$/i, "tag-pos"],
+];
+
+function applyBadgeState(html) {
+  // Matches a plain .tag and the dark-emphasis .tag-k, which is what the
+  // artboards use for "Critical" and "Verified" — exactly the badges whose
+  // meaning is a status.
+  return html.replace(
+    /<span class="tag( tag-k)?"([^>]*)>([^<]{1,22})<\/span>/g,
+    (m, dark, attrs, text) => {
+      const t = text.trim();
+      for (const [re, cls] of BADGE_STATE) {
+        if (re.test(t)) return `<span class="tag ${cls}"${attrs}>${text}</span>`;
+      }
+      return m;
+    }
+  );
 }
 
 function extractStyle(src) {
@@ -184,12 +220,12 @@ for (const [key, file] of PAGES) {
   }
 }
 
-const sharedCss = [...sharedSeen].map(([s, d]) => `${s}{${d}}`).join("\n");
+const sharedCss = readFileSync(new URL("design-system.css", import.meta.url), "utf8");
 
-for (const key of Object.keys(content)) content[key] = applyType(applyTheme(content[key]));
+for (const key of Object.keys(content)) content[key] = applyBadgeState(applyType(applyTheme(content[key])));
 
 const pagesJs =
-  "window.PAGE_CSS = " + JSON.stringify(applyType(applyTheme(sharedCss + "\n" + scoped.join("\n")))) + ";\n" +
+  "window.PAGE_CSS = " + JSON.stringify(sharedCss + "\n" + applyType(applyTheme(scoped.join("\n")))) + ";\n" +
   "window.PAGE_HTML = " + JSON.stringify(content) + ";";
 
 const shell = applyType(applyTheme(readFileSync(new URL("prototype-shell.html", import.meta.url), "utf8")));

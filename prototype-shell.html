@@ -7,128 +7,246 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif&family=Spline+Sans+Mono:wght@400;500;600&display=swap">
 <style>
-  /* Deliberately single-theme: this is a greyscale wireframe prototype, so it
-     paints its own light ground explicitly rather than following the viewer. */
+  /* Shell chrome. Component classes (.pnl .btn .chip .tag .num .td ...) live in
+     design-system.css, which the build appends after this block — so anything
+     defined there must not be redefined here, and anything the shell must win
+     is scoped by id. */
   :root{color-scheme:light;}
   *{box-sizing:border-box;}
   html,body{height:100%;}
-  body{margin:0;background:#f7f7f6;color:#4b4d52;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
-  a{color:#a8512c;}
-  a:hover{color:#8a4023;}
-  :focus-visible{outline:2px solid #a8512c;outline-offset:2px;}
+  body{
+    margin:0;background:#f6f8fa;color:#33475b;
+    font-family:'Instrument Sans',ui-sans-serif,system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:#b0562e;text-underline-offset:2px;}
+  a:hover{color:#8f4423;}
+  :focus-visible{outline:2px solid #b0562e;outline-offset:2px;border-radius:3px;}
   @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important;}}
 
-  /* ---------- login ---------- */
+  /* ============================ login ============================ */
   #login{min-height:100%;display:flex;background:#fff;}
-  .login-left{width:44%;min-width:380px;flex:none;display:flex;flex-direction:column;justify-content:space-between;padding:40px 48px;border-right:1px solid #dcdde0;}
-  .login-right{flex:1;min-width:0;background:#f7f7f6;padding:40px 44px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
-  @media (max-width:900px){#login{flex-direction:column;}.login-left{width:auto;min-width:0;border-right:0;border-bottom:1px solid #dcdde0;}}
-  .lbl{font:600 10px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:#5f6268;}
-  .fld{border:1px solid #c9cbcf;border-radius:3px;background:#fff;padding:0 13px;min-height:46px;display:flex;align-items:center;gap:10px;font:400 13px/1.3 'IBM Plex Sans',sans-serif;color:#17181a;width:100%;text-align:left;}
-  .fld-ph{color:#8a8d93;}
-  .wsel{display:flex;align-items:center;gap:10px;padding:10px;border:0;border-radius:2px;background:#fff;width:100%;text-align:left;cursor:pointer;font:inherit;}
-  .wsel:hover{background:#f2f2f3;}
-  .wsel[aria-pressed="true"]{background:#17181a;}
+  .login-left{
+    width:46%;min-width:400px;flex:none;display:flex;flex-direction:column;
+    justify-content:space-between;padding:44px 56px;border-right:1px solid #dde5ec;
+  }
+  .login-right{
+    flex:1;min-width:0;background:#f6f8fa;padding:44px 48px;
+    display:flex;flex-direction:column;gap:16px;overflow-y:auto;
+  }
+  @media (max-width:980px){
+    #login{flex-direction:column;}
+    .login-left{width:auto;min-width:0;border-right:0;border-bottom:1px solid #dde5ec;padding:32px 24px;}
+    .login-right{padding:32px 24px;}
+  }
+  .lbl{font:600 9.5px/1 'Spline Sans Mono',ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase;color:#5b7189;}
+  .fld{
+    border:1px solid #cbd8e3;border-radius:8px;background:#fff;padding:0 14px;
+    min-height:46px;display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+    font:400 13.5px/1.3 'Instrument Sans',sans-serif;color:#0d1b2a;
+    transition:border-color .12s ease, box-shadow .12s ease;
+  }
+  .fld:focus-within{border-color:#0d1b2a;box-shadow:0 0 0 3px rgba(13,27,42,.07);}
+  .fld-ph{color:#8ba0b4;}
+  .wsel{
+    display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid transparent;
+    border-radius:8px;background:#fff;width:100%;text-align:left;cursor:pointer;font:inherit;
+    transition:background .12s ease, border-color .12s ease;
+  }
+  .wsel:hover{background:#f2f5f8;border-color:#dde5ec;}
+  .wsel[aria-pressed="true"]{background:#0d1b2a;border-color:#0d1b2a;}
   .wsel[aria-pressed="true"] .tdk,.wsel[aria-pressed="true"] .td{color:#fff;}
-  .wsel[aria-pressed="true"] .tag{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.3);color:#fff;}
-  .bigbtn{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #dcdde0;background:#fff;border-radius:3px;min-height:46px;font:500 13px/1 'IBM Plex Sans',sans-serif;color:#17181a;width:100%;cursor:pointer;}
-  .bigbtn:hover{background:#f2f2f3;}
-  .bigbtn-p{background:#17181a;border-color:#17181a;color:#fff;font-weight:600;}
-  .bigbtn-p:hover{background:#2f3135;}
-  .bigbtn[disabled]{opacity:.45;cursor:not-allowed;}
+  .wsel[aria-pressed="true"] .tag{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.28);color:#fff;}
+  .bigbtn{
+    display:flex;align-items:center;justify-content:center;gap:9px;width:100%;
+    min-height:46px;border:1px solid #dde5ec;background:#fff;border-radius:8px;cursor:pointer;
+    font:500 13.5px/1 'Instrument Sans',sans-serif;color:#0d1b2a;
+    box-shadow:0 1px 2px rgba(13,27,42,.05);transition:background .12s ease,border-color .12s ease;
+  }
+  .bigbtn:hover{background:#f2f5f8;border-color:#cbd8e3;}
+  .bigbtn-p{background:#0d1b2a;border-color:#0d1b2a;color:#fff;font-weight:600;box-shadow:0 2px 8px -2px rgba(13,27,42,.3);}
+  .bigbtn-p:hover{background:#17293d;border-color:#17293d;}
+  .bigbtn[disabled]{opacity:.42;cursor:not-allowed;box-shadow:none;}
 
-  /* ---------- app shell ---------- */
+  /* ========================== app shell ========================== */
   #app{display:flex;height:100%;overflow:hidden;}
-  #sidewrap{position:relative;display:flex;flex:none;}
-  #side{width:236px;flex:none;background:#fff;border-right:1px solid #dcdde0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;transition:width .16s ease;}
-  #main{flex:1;min-width:0;display:flex;flex-direction:column;}
-  #head{min-height:54px;flex:none;background:#fff;border-bottom:1px solid #dcdde0;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 22px;flex-wrap:wrap;}
-  #scroll{flex:1;overflow:auto;}
-  #view{padding:20px 22px 28px;display:flex;flex-direction:column;gap:13px;min-width:1040px;}
+  #sidewrap{position:relative;display:flex;flex:none;z-index:10;}
+  #side{
+    width:244px;flex:none;background:#fff;border-right:1px solid #dde5ec;
+    display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;
+    transition:width .18s cubic-bezier(.3,0,.2,1);
+  }
+  #main{flex:1;min-width:0;display:flex;flex-direction:column;background:#f6f8fa;}
+  #head{
+    min-height:58px;flex:none;background:rgba(255,255,255,.88);backdrop-filter:saturate(140%) blur(8px);
+    border-bottom:1px solid #dde5ec;display:flex;align-items:center;justify-content:space-between;
+    gap:16px;padding:9px 24px;flex-wrap:wrap;
+  }
+  #scroll{flex:1;overflow:auto;scroll-behavior:smooth;}
+  #view{padding:24px 24px 40px;display:flex;flex-direction:column;gap:14px;min-width:1040px;max-width:1720px;}
   #burger{display:none;}
-  /* The sidebar's styles live here rather than inline on the markup. Inline
-     styles beat class rules, which repeatedly broke the collapsed state. */
-  .side-head{padding:16px 14px 13px;border-bottom:1px solid #ececed;display:flex;flex-direction:column;gap:11px;}
-  .lockup{display:flex;align-items:center;gap:10px;}
-  .lockup-mark{width:34px;height:34px;flex:none;border:1px solid #dcdde0;border-radius:3px;background:#f2f2f3;display:grid;place-items:center;}
-  .lockup-text{display:flex;flex-direction:column;gap:4px;min-width:0;}
-  .lockup-name{font:600 13.5px/1.2 'IBM Plex Sans',sans-serif;color:#17181a;}
-  .fixed-note{display:flex;align-items:flex-start;gap:7px;border:1px dashed #e3cbbd;background:#f7ede7;border-radius:3px;padding:7px 8px;}
-  .fixed-note em{font:400 10px/1.4 'IBM Plex Sans',sans-serif;color:#a8512c;font-style:normal;}
-  #nav{display:flex;flex-direction:column;gap:2px;padding:11px 10px;}
-  .navgroup{padding:14px 8px 6px;display:flex;align-items:center;gap:6px;}
-  .side-foot{margin-top:auto;padding:12px 14px;border-top:1px solid #ececed;display:flex;align-items:center;gap:9px;}
-  .side-avatar{width:26px;height:26px;flex:none;border-radius:50%;background:#f2f2f3;border:1px solid #dcdde0;}
-  .side-user{display:flex;flex-direction:column;gap:4px;min-width:0;}
-  .side-user b{font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#17181a;}
-  .nav{width:100%;border:0;background:transparent;cursor:pointer;color:#4b4d52;font:500 12.5px/1.3 'IBM Plex Sans',sans-serif;text-align:left;display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:3px;}
-  .nav:hover{background:#f2f2f3;}
-  .nav-on,.nav-on:hover{background:#17181a;color:#fff;}
-  /* Nav icons are drawn inline so they inherit currentColor and invert
-     cleanly on the active pill. */
-  .nav svg{width:16px;height:16px;flex:none;opacity:.7;}
-  .nav:hover svg{opacity:.9;}
-  .nav-on svg,.nav-on:hover svg{opacity:1;}
-  [data-signout]{white-space:nowrap;}
 
-  /* ---------- collapsible sidebar ---------- */
-  #collapse{position:absolute;top:24px;right:-12px;width:24px;height:24px;border-radius:50%;border:1px solid #dcdde0;background:#fff;color:#4b4d52;display:grid;place-items:center;cursor:pointer;z-index:6;box-shadow:0 2px 6px rgba(16,27,43,.14);padding:0;}
-  #collapse:hover{color:#17181a;border-color:#b7b9bd;}
-  #collapse svg{display:block;transition:transform .16s ease;}
-  /* Collapsing only applies on desktop — below 820px the sidebar is already a
-     drawer, so the narrow rail would be a second, conflicting mode. */
-  @media (min-width:821px){
-    #sidewrap.collapsed #side{width:64px;}
+  /* page header: the h1 and its deck come from the page content */
+  #view h1{margin:0 0 3px;color:#0d1b2a;}
+  #view > div:first-of-type .sub,#view > div:nth-of-type(2) .sub{max-width:92ch;}
+
+  /* figures line up in columns across this product */
+  #view .num,#view .td,#view .tdk,#view .th,#view .foot,#view .cap,#view .tag{font-variant-numeric:tabular-nums;}
+
+  /* ============================ nav ============================ */
+  .side-head{padding:18px 16px 15px;border-bottom:1px solid #eaeff4;display:flex;flex-direction:column;gap:12px;}
+  .lockup{display:flex;align-items:center;gap:11px;}
+  .lockup-mark{
+    width:36px;height:36px;flex:none;border:1px solid #dde5ec;border-radius:9px;
+    background:linear-gradient(180deg,#fff,#f2f5f8);display:grid;place-items:center;
+    box-shadow:0 1px 2px rgba(13,27,42,.06);
+  }
+  .lockup-text{display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .lockup-name{font:600 14px/1.25 'Instrument Sans',sans-serif;color:#0d1b2a;letter-spacing:-.01em;}
+  .fixed-note{
+    display:flex;align-items:flex-start;gap:8px;border:1px solid #ecd4c6;background:#fbf0ea;
+    border-radius:8px;padding:8px 9px;
+  }
+  .fixed-note em{font:400 10px/1.45 'Instrument Sans',sans-serif;color:#8f4423;font-style:normal;}
+  #nav{display:flex;flex-direction:column;gap:1px;padding:10px 12px 14px;}
+  .navgroup{padding:15px 8px 7px;display:flex;align-items:center;gap:7px;}
+  .nav{
+    width:100%;border:0;background:transparent;cursor:pointer;color:#33475b;text-align:left;
+    font:500 12.5px/1.35 'Instrument Sans',sans-serif;
+    display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;
+    transition:background .12s ease,color .12s ease;
+  }
+  .nav:hover{background:#f2f5f8;color:#0d1b2a;}
+  .nav svg{width:16px;height:16px;flex:none;opacity:.62;}
+  .nav:hover svg{opacity:.85;}
+  .nav-on,.nav-on:hover{background:#0d1b2a;color:#fff;box-shadow:0 2px 8px -2px rgba(13,27,42,.34);}
+  .nav-on svg{opacity:1;}
+  .side-foot{
+    margin-top:auto;padding:13px 16px;border-top:1px solid #eaeff4;
+    display:flex;align-items:center;gap:10px;
+  }
+  .side-avatar{
+    width:28px;height:28px;flex:none;border-radius:50%;border:1px solid #dde5ec;
+    background:linear-gradient(180deg,#fff,#eaeff4);
+  }
+  .side-user{display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .side-user b{font:500 12px/1.2 'Instrument Sans',sans-serif;color:#0d1b2a;}
+  [data-signout]{white-space:nowrap;}
+  .crumb{display:flex;align-items:center;gap:9px;font:400 12.5px/1.3 'Instrument Sans',sans-serif;color:#5b7189;flex-wrap:wrap;}
+  .crumb b{color:#0d1b2a;font-weight:600;}
+  .crumb-sep{color:#aec0d0;}
+
+  /* ===================== collapse (desktop only) ===================== */
+  #collapse{
+    position:absolute;top:26px;right:-13px;width:26px;height:26px;border-radius:50%;
+    border:1px solid #dde5ec;background:#fff;color:#5b7189;display:grid;place-items:center;
+    cursor:pointer;z-index:6;box-shadow:0 2px 8px rgba(13,27,42,.14);padding:0;
+    transition:color .12s ease,border-color .12s ease;
+  }
+  #collapse:hover{color:#0d1b2a;border-color:#c2cfdb;}
+  #collapse svg{display:block;transition:transform .18s cubic-bezier(.3,0,.2,1);}
+  @media (min-width:1025px){
+    #sidewrap.collapsed #side{width:68px;}
     #sidewrap.collapsed #collapse svg{transform:rotate(180deg);}
     #sidewrap.collapsed .side-label{display:none;}
     #sidewrap.collapsed .lockup,#sidewrap.collapsed .side-foot{justify-content:center;}
-    #sidewrap.collapsed .side-head{padding:16px 8px 13px;}
-    #sidewrap.collapsed #nav{padding:11px 8px;}
+    #sidewrap.collapsed .side-head{padding:18px 10px 15px;}
+    #sidewrap.collapsed #nav{padding:10px 10px 14px;}
     #sidewrap.collapsed .nav{justify-content:center;padding:10px 0;}
-    /* A caption with nothing left to say becomes the rule it was implying —
-       so it needs its padding gone, not just its text. */
-    #sidewrap.collapsed .navgroup{display:block;height:1px;padding:0;margin:14px 8px 10px;background:#e9edf1;}
-    #sidewrap.collapsed .side-foot{padding:12px 8px;}
+    #sidewrap.collapsed .navgroup{display:block;height:1px;padding:0;margin:15px 8px 10px;background:#eaeff4;}
+    #sidewrap.collapsed .side-foot{padding:13px 10px;}
   }
-  @media (max-width:820px){
-    #sidewrap{position:fixed;inset:0 auto 0 0;z-index:20;transform:translateX(-100%);transition:transform .16s ease;box-shadow:0 0 40px rgba(23,24,26,.18);}
+
+  /* ===================== responsive =====================
+     Page content is authored with inline grid templates, so the breakpoints
+     reach them by matching the inline style itself. */
+  @media (max-width:1400px){
+    #view [style*="repeat(6,minmax(0,1fr))"]{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+  }
+  @media (max-width:1180px){
+    #view{min-width:0;padding:20px 18px 36px;}
+    #view [style*="repeat(5,minmax(0,1fr))"]{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+    #view [style*="repeat(4,minmax(0,1fr))"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+    #view [style*="minmax(0,1.62fr)"],
+    #view [style*="minmax(0,1.5fr)"],
+    #view [style*="minmax(0,1.45fr)"],
+    #view [style*="minmax(0,1.3fr)"]{grid-template-columns:minmax(0,1fr)!important;}
+    /* Tables keep their own column widths and scroll inside their card. */
+    #view .pnl{overflow-x:auto;}
+  }
+  @media (max-width:1024px){
+    #sidewrap{position:fixed;inset:0 auto 0 0;transform:translateX(-100%);
+      transition:transform .18s cubic-bezier(.3,0,.2,1);box-shadow:0 0 48px rgba(13,27,42,.2);}
     #sidewrap.open{transform:none;}
-    #burger{display:flex!important;}
+    #burger{display:inline-flex!important;}
     #collapse{display:none;}
+    #scrim{position:fixed;inset:0;background:rgba(13,27,42,.34);z-index:9;opacity:0;pointer-events:none;transition:opacity .18s ease;}
+    #scrim.on{opacity:1;pointer-events:auto;}
   }
-  .crumb{display:flex;align-items:center;gap:8px;font:400 12px/1.3 'IBM Plex Sans',sans-serif;color:#6f7278;flex-wrap:wrap;}
-  .crumb b{color:#17181a;font-weight:600;}
+  @media (max-width:760px){
+    #head{padding:9px 14px;}
+    #view{padding:16px 14px 32px;gap:12px;}
+    #view [style*="repeat(6"],#view [style*="repeat(5"],
+    #view [style*="repeat(4"],#view [style*="repeat(3"]{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+    #view [style*="repeat(2,minmax(0,1fr))"]{grid-template-columns:minmax(0,1fr)!important;}
+    #view [style*="216px minmax(0,1fr) 334px"],
+    #view [style*="420px minmax(0,1fr)"]{grid-template-columns:minmax(0,1fr)!important;}
+  }
 
-  /* ---------- interaction affordances ---------- */
+  /* ===================== interaction affordances ===================== */
   .btn,.chip,.tab,.facet,.box,.th{cursor:pointer;}
-  .btn:hover,.chip:hover{background:#f2f2f3;}
-  .btn-p:hover{background:#2f3135;}
-  .chip-on{background:#17181a!important;border-color:#17181a!important;color:#fff!important;}
-  .chip-on .tag{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff;}
-  .tab:hover{color:#17181a;}
-  .facet:hover .box{border-color:#17181a;}
-  .th[data-sortable]:hover{color:#17181a;text-decoration:underline;text-underline-offset:3px;}
-  .th[data-sortable]::after{content:" ⇅";opacity:.4;}
-  .drill{cursor:pointer;}
-  .drill:hover{background:#f7f7f6;}
+  .chip-on{background:#0d1b2a!important;border-color:#0d1b2a!important;color:#fff!important;}
+  .chip-on .tag{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.3);color:#fff;}
+  .th[data-sortable]:hover{color:#0d1b2a;}
+  .th[data-sortable]::after{content:" ⇅";opacity:.45;}
+  .th[data-sortable][data-dir]::after{content:" ↓";opacity:1;}
+  .th[data-sortable][data-dir="asc"]::after{content:" ↑";opacity:1;}
+  .drill{cursor:pointer;border-radius:6px;transition:background .1s ease;}
+  .drill:hover{background:#f6f8fa;}
   .hidden{display:none!important;}
-  /* Figures line up in columns all over this product, so they get tabular
-     figures. The id raises specificity above the page stylesheet, which is
-     appended after this block. */
-  #view .num,#view .td,#view .tdk,#view .th,#view .foot,#view .cap,#view .tag{font-variant-numeric:tabular-nums;}
-  /* Instrument Serif runs light at display sizes; give the h1 room to breathe
-     and let the deck below it sit closer. */
-  #view h1{margin-bottom:2px;}
 
-  /* ---------- prototype chrome ---------- */
-  #hint{display:flex;align-items:flex-start;gap:10px;background:#fdf9f7;border:1px dashed #e3cbbd;border-radius:3px;padding:10px 12px;}
-  #hint p{margin:0;font:400 11.5px/1.5 'IBM Plex Sans',sans-serif;color:#a8512c;}
-  #hint button{margin-left:auto;flex:none;border:1px solid #e3cbbd;background:#fff;color:#a8512c;border-radius:2px;padding:5px 9px;font:500 10.5px/1 'IBM Plex Sans',sans-serif;cursor:pointer;}
-  #toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(12px);background:#17181a;color:#fff;padding:11px 16px;border-radius:3px;font:500 12px/1 'IBM Plex Sans',sans-serif;opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease;z-index:40;max-width:90vw;text-align:center;}
+  /* ===================== prototype chrome ===================== */
+  #hint{
+    display:flex;align-items:flex-start;gap:11px;background:#fbf0ea;border:1px solid #ecd4c6;
+    border-radius:10px;padding:11px 13px;
+  }
+  #hint p{margin:0;font:400 11.5px/1.55 'Instrument Sans',sans-serif;color:#8f4423;}
+  #hint button{
+    margin-left:auto;flex:none;border:1px solid #ecd4c6;background:#fff;color:#8f4423;
+    border-radius:6px;padding:6px 10px;font:500 11px/1 'Instrument Sans',sans-serif;cursor:pointer;
+  }
+  #hint button:hover{background:#fdf7f4;}
+  #toast{
+    position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(12px);
+    background:#0d1b2a;color:#fff;padding:12px 18px;border-radius:10px;
+    font:500 12.5px/1 'Instrument Sans',sans-serif;opacity:0;pointer-events:none;
+    transition:opacity .18s ease,transform .18s ease;z-index:40;max-width:90vw;text-align:center;
+    box-shadow:0 18px 44px -12px rgba(13,27,42,.45);
+  }
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-  .empty{background:#fff;border:1px solid #dcdde0;border-radius:3px;padding:40px 32px;display:flex;flex-direction:column;gap:10px;align-items:flex-start;}
-  .empty h2{margin:0;font:600 18px/1.2 'IBM Plex Sans',sans-serif;color:#17181a;letter-spacing:-.015em;}
-  .empty p{margin:0;font:400 13px/1.55 'IBM Plex Sans',sans-serif;color:#4b4d52;max-width:58ch;}
+
+  /* empty / 404 / not-built states */
+  .empty{
+    background:#fff;border:1px solid #dde5ec;border-radius:12px;padding:56px 40px;
+    display:flex;flex-direction:column;gap:12px;align-items:flex-start;
+    box-shadow:0 1px 2px rgba(13,27,42,.05);
+  }
+  .empty-mark{
+    width:40px;height:40px;border-radius:10px;border:1px solid #dde5ec;background:#f2f5f8;
+    display:grid;place-items:center;color:#5b7189;margin-bottom:4px;
+  }
+  .empty h2{margin:0;font:400 26px/1.15 'Instrument Serif',Georgia,serif;color:#0d1b2a;letter-spacing:-.008em;}
+  .empty p{margin:0;font:400 13.5px/1.6 'Instrument Sans',sans-serif;color:#33475b;max-width:62ch;}
+
+  /* loading skeleton, used for actions that imply real work */
+  .sk-wrap{display:flex;flex-direction:column;gap:14px;}
+  .sk{background:linear-gradient(90deg,#eef2f6 25%,#e3eaf0 37%,#eef2f6 63%);
+    background-size:400% 100%;animation:sk 1.3s ease infinite;border-radius:8px;}
+  @keyframes sk{0%{background-position:100% 50%}100%{background-position:0 50%}}
+  .sk-row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;}
+  .sk-card{height:104px;}
+  .sk-panel{height:300px;}
+  @media (max-width:1180px){.sk-row{grid-template-columns:repeat(3,minmax(0,1fr));}}
 </style>
 </head>
 <body>
@@ -260,6 +378,28 @@
     } catch (e) {
       return null;
     }
+  }
+
+  /* Actions that would genuinely do work show the skeleton rather than
+     resolving instantly — an action that claims to run and returns in 0ms
+     reads as fake. Purely presentational: nothing is fetched. */
+  function runWithLoading(label, done) {
+    var view = document.getElementById("view");
+    if (!view) return;
+    var prev = view.innerHTML;
+    view.innerHTML =
+      '<div class="sk-wrap" role="status" aria-live="polite" aria-label="Working">' +
+        '<div class="sk" style="height:34px;width:280px;"></div>' +
+        '<div class="sk-row">' +
+          new Array(6).join(0).split("0").map(function () { return '<div class="sk sk-card"></div>'; }).join("") +
+        '</div>' +
+        '<div class="sk sk-panel"></div>' +
+      '</div>';
+    setTimeout(function () {
+      view.innerHTML = prev;
+      enhance(view);
+      if (done) done();
+    }, 900);
   }
 
   var toastTimer;
@@ -433,16 +573,24 @@
         '<header id="head">' +
           '<div style="display:flex;align-items:center;gap:10px;min-width:0;">' +
             '<button type="button" id="burger" class="btn" style="padding:6px 9px;" aria-label="Toggle navigation">Menu</button>' +
-            '<div class="crumb"><span>' + esc(t.name) + '</span><span>/</span><b id="crumb-page"></b><span id="crumb-flag"></span></div>' +
+            '<div class="crumb"><span>' + esc(t.name) + '</span><span class="crumb-sep">/</span><b id="crumb-page"></b><span id="crumb-flag"></span></div>' +
           '</div>' +
           '<div id="head-actions" style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;"></div>' +
         '</header>' +
         '<div id="scroll"><div id="view"></div></div>' +
-      '</div>';
+      '</div>' +
+      '<div id="scrim" aria-hidden="true"></div>';
 
     /* Collapsed state is a per-viewer convenience, so it lives in browser
        storage and the page renders correctly when that is unavailable. */
     if (store("cxm-side-collapsed") === "1") setCollapsed(true);
+  }
+
+  function setDrawer(on) {
+    var wrap = document.getElementById("sidewrap");
+    var scrim = document.getElementById("scrim");
+    if (wrap) wrap.classList.toggle("open", on);
+    if (scrim) scrim.classList.toggle("on", on);
   }
 
   function setCollapsed(on) {
@@ -499,11 +647,18 @@
     document.getElementById("scroll").scrollTop = 0;
   }
 
+  function emptyMark(d) {
+    return '<div class="empty-mark"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" ' +
+      'stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="' + d + '"/></svg></div>';
+  }
+
   function notAvailable(page, t) {
     var why = STORE_ONLY[page]
       ? TITLES[page] + " analyses stores, branches and geography. " + t.name + " is registered as a non-store company, so the page is not part of its page set."
       : TITLES[page] + " belongs to the non-store page set. " + t.name + " is a store-based company and uses the Network pages instead.";
-    return '<div class="empty"><span class="cap">404 · route not in this tenant\'s page set</span>' +
+    return '<div class="empty">' + emptyMark('M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z') +
+      '<span class="cap">404 · route not in this tenant\'s page set</span>' +
       '<h2>' + esc(TITLES[page] || page) + ' is not available here</h2>' +
       '<p>' + esc(why) + '</p>' +
       '<p style="color:#6f7278;">The route returns 404 rather than rendering an empty page. Showing it blank would invite the question "why is our store data missing" for a company that has no stores.</p>' +
@@ -511,7 +666,8 @@
   }
 
   function notWireframed(page) {
-    return '<div class="empty"><span class="cap">Not wireframed yet</span>' +
+    return '<div class="empty">' + emptyMark('M4 5h16v14H4z M4 10h16 M10 10v9') +
+      '<span class="cap">Not wireframed yet</span>' +
       '<h2>' + esc(TITLES[page] || page) + '</h2>' +
       '<p>This page is in the tenant\'s page set and routes correctly, but it has not been wireframed in this round. It would follow the same shell: filter bar, KPI row, one or two analytical modules, and an evidence drilldown into the Reviews Feed.</p>' +
       '<button type="button" class="btn" data-go="reviews">Go to Reviews Feed</button></div>';
@@ -754,7 +910,8 @@
       return;
     }
     if (e.target.closest("[data-signout]")) { location.hash = "#/login"; return; }
-    if (e.target.closest("#burger")) { document.getElementById("sidewrap").classList.toggle("open"); return; }
+    if (e.target.closest("#burger")) { setDrawer(!document.getElementById("sidewrap").classList.contains("open")); return; }
+    if (e.target.closest("#scrim")) { setDrawer(false); return; }
     if (e.target.closest("#collapse")) { setCollapsed(!document.getElementById("sidewrap").classList.contains("collapsed")); return; }
     if (e.target.closest("[data-dismiss-hint]")) {
       store("cxm-hint-dismissed", "1");
@@ -803,6 +960,10 @@
       var label = (btn.textContent || "").trim();
       if (/^reset$/i.test(label)) { resetFilters(view); return; }
       if (/columns/i.test(label)) { toast("Column picker — not built in this prototype"); return; }
+      if (/^(run now|export|send now|preview full)$/i.test(label)) {
+        runWithLoading(label, function () { toast(label + " — prototype action, nothing is sent"); });
+        return;
+      }
       toast(label + " — prototype action, nothing is sent");
       return;
     }
@@ -848,7 +1009,7 @@
 
   function navigate(page) {
     if (!page) return;
-    document.getElementById("sidewrap").classList.remove("open");
+    setDrawer(false);
     location.hash = "#/" + state.tenant + "/" + resolveRoute(page);
   }
 
