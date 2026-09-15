@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CXM Wireframes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root{color-scheme:light;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:#f7f7f6;color:#4b4d52;font-family:'IBM Plex Sans',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.55;}
+  .wrap{max-width:900px;margin:0 auto;padding-inline:24px;padding-block:56px 72px;}
+  .cap{font:600 9.5px/1.3 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;text-transform:uppercase;color:#6f7278;}
+  h1{font:700 32px/1.1 'IBM Plex Sans',sans-serif;letter-spacing:-.028em;color:#17181a;margin:12px 0 10px;text-wrap:balance;}
+  .lede{font-size:16px;color:#4b4d52;margin:0 0 8px;max-width:62ch;}
+  .rule{border:0;border-top:2px solid #17181a;margin:28px 0 24px;}
+  h2{font:600 13px/1.3 'IBM Plex Sans',sans-serif;color:#17181a;margin:32px 0 12px;letter-spacing:.01em;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;}
+  .card{display:flex;flex-direction:column;gap:9px;background:#fff;border:1px solid #dcdde0;border-radius:3px;padding:18px 19px;text-decoration:none;color:inherit;}
+  .card:hover{border-color:#17181a;}
+  .card:focus-visible{outline:2px solid #a8512c;outline-offset:2px;}
+  .card .t{font:600 15px/1.25 'IBM Plex Sans',sans-serif;color:#17181a;}
+  .card p{margin:0;font-size:13px;line-height:1.55;color:#4b4d52;}
+  .card .go{font:500 11.5px/1 'IBM Plex Sans',sans-serif;color:#a8512c;margin-top:auto;padding-top:4px;}
+  .tag{display:inline-block;font:600 8.5px/1 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase;padding:3px 5px;border-radius:2px;border:1px solid #dcdde0;background:#f2f2f3;color:#6f7278;}
+  .tag-c{background:#f7ede7;border-color:#e3cbbd;color:#a8512c;}
+  .note{border-left:2px solid #a8512c;background:#fff;padding:14px 18px;margin:24px 0 0;}
+  .note p{margin:0;font-size:13.5px;max-width:64ch;}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin-top:4px;}
+  th{text-align:left;font:600 9px/1.2 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.11em;text-transform:uppercase;color:#6f7278;padding:9px 12px;background:#eeeff0;border-bottom:1px solid #dcdde0;}
+  td{padding:10px 12px;border-bottom:1px solid #ececed;background:#fff;vertical-align:top;}
+  tr:last-child td{border-bottom:0;}
+  td b{color:#17181a;font-weight:600;}
+  .scroll{overflow-x:auto;border:1px solid #dcdde0;border-radius:3px;}
+  .foot{font:400 11px/1.6 'IBM Plex Mono',ui-monospace,monospace;color:#7c7f85;border-top:2px solid #17181a;padding-top:14px;margin-top:40px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <span class="cap">Framework · v0.1 draft</span>
+  <h1>CXM Wireframes</h1>
+  <p class="lede">A multi-tenant Voice-of-Customer platform: one dashboard shell that ingests reviews
+  from many sources, normalises them into a common model, and adapts its page set to whether a
+  company runs stores or not.</p>
+
+  <hr class="rule">
+
+  <h2>Open</h2>
+  <div class="grid">
+    <a class="card" href="cxm-prototype.html">
+      <span class="tag tag-c">Start here</span>
+      <span class="t">Clickable prototype</span>
+      <p>Sign in as a store-based or a non-store company and navigate the full page set. Nav, tabs,
+      filter chips, review facets, column sorting and drilldowns all work.</p>
+      <span class="go">Open prototype →</span>
+    </a>
+    <a class="card" href="cxm-dashboard-framework.html">
+      <span class="tag">19 artboards</span>
+      <span class="t">Wireframe canvas</span>
+      <p>Every screen laid out on one pan/zoom canvas, across two pages — store-based and non-store —
+      with annotation notes explaining the framework rules.</p>
+      <span class="go">Open canvas →</span>
+    </a>
+    <a class="card" href="review-intelligence-framework.html">
+      <span class="tag">Reference</span>
+      <span class="t">Framework spec</span>
+      <p>Review of the existing build, sitemap, page specs, KPI dictionary, insight taxonomy, common
+      data model, gaps to close, owner requirements and roadmap.</p>
+      <span class="go">Open spec →</span>
+    </a>
+  </div>
+
+  <h2>The rule these wireframes exist to express</h2>
+  <p class="lede">Company selection happens once, on the login page. Signing in resolves one tenant
+  configuration bundle — branding, entity model, sources, taxonomy, page set, permissions — and the
+  dashboard renders from it. There is no company switcher inside the product. A page outside a
+  tenant's page set returns 404 rather than rendering empty.</p>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th>Store-based</th><th>Non-store</th></tr></thead>
+      <tbody>
+        <tr><td><b>Primary entity</b></td><td>Store / branch / outlet</td><td>Product / app / plan</td></tr>
+        <tr><td><b>Hierarchy</b></td><td>Brand → Region → City → Store → Counter</td><td>Brand → Product line → Product → Release / Plan</td></tr>
+        <tr><td><b>Exclusive pages</b></td><td>Store Performance, City &amp; Region, Staff &amp; Service Quality</td><td>Product &amp; App, Channel Performance, Segments &amp; Cohorts, Journey Stages</td></tr>
+        <tr><td><b>Shared</b></td><td colspan="2">Overview · Reviews Feed · Insights · Competitor &amp; Trust · Support · Data Hub · Actions · Reports</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    <p><b>Every figure shown is an illustrative sample value, not a measurement.</b> The only real
+    numbers in this work are cited in the spec and come from the existing deployed build: 3,179 Play
+    Store reviews, 3.84 average rating, six mock stores, and competitor mention counts of 14, 10
+    and 2.</p>
+  </div>
+
+  <p class="foot">Greyscale is the common shell every tenant gets. Terracotta marks elements
+  conditional on company type, or notes about the framework rather than the UI.<br>
+  Source and build instructions: see README.md in the repository.</p>
+
+</div>
+</body>
+</html>
