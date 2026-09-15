@@ -39,6 +39,54 @@ const SHARED = new Set([
   ".tab", ".tab-on", ".col", ".card", ".ttl", ".tm", ".tmpl", ".strike",
 ]);
 
+/* ---------------------------------------------------------------------------
+   Theme: "Harbour".
+
+   The artboards are authored as greyscale wireframes and stay that way — the
+   canvas is meant to read as a wireframe. The prototype is a product demo, so
+   the neutral ramp is remapped here to a navy-tinted one: cooler ground, deep
+   navy ink, and dark fills that read as a considered primary rather than black.
+
+   Terracotta is deliberately NOT remapped. It carries meaning in this system —
+   company-type-conditional modules and framework annotations — and keeping it
+   warm against a cool ground is what makes those elements findable.
+--------------------------------------------------------------------------- */
+const THEME = {
+  "#17181a": "#0f2233", // ink, dark fills, active nav, primary button
+  "#2f3135": "#22384c",
+  "#4b4d52": "#3f5566", // body text
+  "#5a5d63": "#4d6376",
+  "#6f7278": "#61788b", // muted
+  "#7c7f85": "#6f8598", // footnotes
+  "#83868c": "#768c9f",
+  "#8a8d93": "#7d93a5", // placeholder text
+  "#9a9da2": "#8ea2b2",
+  "#a5a8ad": "#9aacbb",
+  "#b0b3b8": "#a5b6c3",
+  "#b7b9bd": "#adbcc8",
+  "#c0c2c6": "#b6c4d0",
+  "#c9cbcf": "#c0ccd7",
+  "#d2d4d7": "#cad5de",
+  "#dcdde0": "#d4dee6", // borders
+  "#e1e2e4": "#dae3ea",
+  "#e2e3e5": "#dbe4ea",
+  "#e9eaeb": "#e3eaef",
+  "#eaeaec": "#e4ebf0",
+  "#eceded": "#e7edf2",
+  "#ececed": "#e7edf2", // hairlines
+  "#eeeff0": "#e9eff3",
+  "#f0f0f1": "#ebf0f4",
+  "#f0f1f1": "#ebf0f4",
+  "#f2f2f3": "#eef3f7", // fills
+  "#f4f4f5": "#f1f5f8",
+  "#f7f7f6": "#f4f8fb", // page ground
+  "#fafafa": "#f8fbfd",
+};
+
+function applyTheme(css) {
+  return css.replace(/#[0-9a-f]{6}\b/gi, (hex) => THEME[hex.toLowerCase()] || hex);
+}
+
 function extractStyle(src) {
   const m = src.match(/<style>([\s\S]*?)<\/style>/);
   return m ? m[1] : "";
@@ -93,11 +141,13 @@ for (const [key, file] of PAGES) {
 
 const sharedCss = [...sharedSeen].map(([s, d]) => `${s}{${d}}`).join("\n");
 
+for (const key of Object.keys(content)) content[key] = applyTheme(content[key]);
+
 const pagesJs =
-  "window.PAGE_CSS = " + JSON.stringify(sharedCss + "\n" + scoped.join("\n")) + ";\n" +
+  "window.PAGE_CSS = " + JSON.stringify(applyTheme(sharedCss + "\n" + scoped.join("\n"))) + ";\n" +
   "window.PAGE_HTML = " + JSON.stringify(content) + ";";
 
-const shell = readFileSync(new URL("prototype-shell.html", import.meta.url), "utf8");
+const shell = applyTheme(readFileSync(new URL("prototype-shell.html", import.meta.url), "utf8"));
 if (!shell.includes("/*__PAGES__*/")) throw new Error("shell is missing the /*__PAGES__*/ slot");
 // JSON.stringify never emits "</script>", but a page's own copy could; be safe.
 const out = shell.replace("/*__PAGES__*/", pagesJs.replace(/<\/script>/gi, "<\\/script>"));
