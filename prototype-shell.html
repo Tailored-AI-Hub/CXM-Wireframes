@@ -91,7 +91,7 @@
      renders — nav, page set, branding, breadcrumb — reads from here. */
   var TENANTS = {
     titan: {
-      name: "Titan Company", type: "STORE_BASED", typeLabel: "Store-based · IN",
+      name: "Titan Company", type: "STORE_BASED", typeLabel: "Store-based · IN · sample data",
       user: "R. Iyer", role: "Regional Mgr · South", initials: "TC",
       groups: [
         { label: "Monitor", items: [["overview","Overview"],["reviews","Reviews Feed"],["insights","Insights"]] },
@@ -101,9 +101,9 @@
         { label: "Platform", items: [["data","Data Hub"]] }
       ]
     },
-    northline: {
-      name: "Northline Fintech", type: "NON_STORE", typeLabel: "Non-store · IN",
-      user: "J. Bhatt", role: "Head of CX", initials: "NF",
+    paytm: {
+      name: "Paytm", type: "NON_STORE", typeLabel: "Non-store · IN · sample data",
+      user: "J. Bhatt", role: "Head of CX", initials: "PT",
       groups: [
         { label: "Monitor", items: [["ns-overview","Overview"],["reviews","Reviews Feed"],["insights","Insights"]] },
         { label: "Portfolio", flag: "Non-store", items: [["ns-products","Product & App"],["ns-channels","Channel Performance"],["ns-segments","Segments & Cohorts"],["ns-journey","Journey Stages"]] },
@@ -180,7 +180,7 @@
     var picked = state.pending || null;
     var rows = [
       ["titan", "Titan Company", "Store-based"],
-      ["northline", "Northline Fintech", "Non-store"]
+      ["paytm", "Paytm", "Non-store"]
     ];
     el.login.innerHTML =
       '<div class="login-left">' +
@@ -242,7 +242,7 @@
         '</div>' +
         '<div class="pnl" style="padding:15px 16px;display:flex;flex-direction:column;gap:10px;">' +
           '<span class="h">Try both</span>' +
-          '<span class="td">Sign in as Titan, then sign out and return as Northline. The shell, the routes and the component library are identical — only the resolved config differs.</span>' +
+          '<span class="td">Sign in as Titan, then sign out and return as Paytm. The shell, the routes and the component library are identical — only the resolved config differs.</span>' +
         '</div>' +
       '</div>';
   }
